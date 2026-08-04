@@ -1,4 +1,4 @@
- import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, getRouteApi } from '@tanstack/react-router'
 import { useBreed } from '../../hooks/useBreed.ts'
 import { getImageUrl } from '../../utils/helper.ts'
 import styles from './BreedPage.module.css'
@@ -12,14 +12,14 @@ const RATING_LABELS: Record<string, string> = {
   vocalisation: 'Vocalisation',
 }
 
+const route = getRouteApi('/breeds/$breedId')
+
 export function BreedPage() {
-  const { breedId = '' } = useParams()
-  const location = useLocation()
+  const { breedId } = route.useParams()
   const { data: breed, isLoading, isError, error } = useBreed(breedId)
 
-  const backSearch = (location.state as { from?: string } | null)?.from ?? ''
   const backLink = (
-    <Link className={styles.back} to={`/breeds${backSearch}`}>
+    <Link className={styles.back} to="/breeds" search={(prev) => prev}>
       ← Back to results
     </Link>
   )

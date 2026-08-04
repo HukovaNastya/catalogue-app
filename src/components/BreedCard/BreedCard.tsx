@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 import type { Breed } from '../../services/cat/cat.model.ts';
 import styles from './BreedCard.module.css';
 import {getImageUrl} from "../../utils/helper.ts";
@@ -9,13 +9,12 @@ interface BreedCardProps {
 
 export function BreedCard({ breed }: BreedCardProps) {
   const imageUrl = getImageUrl(breed);
-  const location = useLocation();
 
   return (
     <Link
       className={styles.link}
-      to={`/breeds/${breed.id}`}
-      state={{ from: location.search }}
+      to="/breeds/$breedId"
+      params={{ breedId: breed.id }}
     >
     <article className={styles.card}>
       <div className={styles.imageWrapper}>
