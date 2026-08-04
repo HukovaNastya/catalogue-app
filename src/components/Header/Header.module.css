@@ -17,6 +17,9 @@
 }
 
 .favourites {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -25,12 +28,36 @@
   font: inherit;
   font-size: 15px;
   white-space: nowrap;
+  text-decoration: none;
   cursor: pointer;
 }
 
-.favourites:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.favourites:hover {
+  border-color: var(--accent-border);
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--text-h);
+  font-size: 13px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @media (max-width: 640px) {

@@ -36,6 +36,13 @@
   gap: 12px;
 }
 
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .name {
   margin: 0;
   font-size: 40px;

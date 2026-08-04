@@ -15,16 +15,6 @@
   text-align: left;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  align-content: start;
-  flex: 1;
-  gap: 16px;
-  padding: 16px;
-  text-align: left;
-}
-
 .empty {
   display: flex;
   flex: 1;

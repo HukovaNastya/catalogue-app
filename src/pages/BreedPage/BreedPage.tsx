@@ -1,5 +1,6 @@
 import { Link, getRouteApi } from '@tanstack/react-router'
 import { useBreed } from '../../hooks/useBreed.ts'
+import { FavouriteButton } from '../../components/FavouriteButton/FavouriteButton.tsx'
 import { getImageUrl } from '../../utils/helper.ts'
 import styles from './BreedPage.module.css'
 
@@ -54,7 +55,14 @@ export function BreedPage() {
           <img className={styles.image} src={imageUrl} alt={breed.name} />
         )}
         <div className={styles.summary}>
-          <h1 className={styles.name}>{breed.name}</h1>
+          <div className={styles.titleRow}>
+            <h1 className={styles.name}>{breed.name}</h1>
+            <FavouriteButton
+              breedId={breed.id}
+              breedName={breed.name}
+              withLabel
+            />
+          </div>
           <p className={styles.meta}>
             {breed.origin} · {breed.life_span} years · {breed.weight.metric} kg
           </p>

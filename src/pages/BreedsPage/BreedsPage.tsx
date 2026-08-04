@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useBreeds } from '../../hooks/useBreeds.ts'
 import { useBreedsParams } from '../../hooks/useBreedsParams.ts'
-import { BreedCard } from '../../components/BreedCard/BreedCard.tsx'
+import { BreedList } from '../../components/BreedList/BreedList.tsx'
 import { Pagination } from '../../components/Pagination/Pagination.tsx'
 import { filterBreeds } from '../../utils/filterBreeds.ts'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
@@ -49,11 +49,7 @@ export function BreedsPage() {
               </button>
             </div>
           ) : (
-            <div className={styles.grid}>
-              {visibleBreeds.map((breed) => (
-                <BreedCard key={breed.id} breed={breed} />
-              ))}
-            </div>
+            <BreedList breeds={visibleBreeds} />
           )}
 
           <Pagination

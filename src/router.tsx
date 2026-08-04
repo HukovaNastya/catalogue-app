@@ -9,6 +9,7 @@ import { searchMiddlewares, validateSearch } from './routeSearch.ts'
 import App from './App.tsx'
 import { BreedsPage } from './pages/BreedsPage/BreedsPage.tsx'
 import { BreedPage } from './pages/BreedPage/BreedPage.tsx'
+import { FavouritesPage } from './pages/FavouritesPage/FavouritesPage.tsx'
 import { ErrorPage, NotFoundPage } from './pages/ErrorPage/ErrorPage.tsx'
 
 export interface RouterContext {
@@ -43,7 +44,18 @@ const breedRoute = createRoute({
   component: BreedPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, breedsRoute, breedRoute])
+const favouritesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/favourites',
+  component: FavouritesPage,
+})
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  breedsRoute,
+  breedRoute,
+  favouritesRoute,
+])
 
 export const router = createRouter({
   routeTree,
