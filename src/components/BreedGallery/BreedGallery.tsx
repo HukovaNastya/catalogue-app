@@ -55,21 +55,36 @@ export function BreedGallery({
       // Focus only follows when it is already on a thumb: arrowing from
       // elsewhere on the page should not yank focus into the strip.
       const inStrip = stripRef.current?.contains(target) ?? false;
+      // Walks every photo, including the ones behind the "+N" tile — the
+      // strip's last slot follows along to show where you are.
       const step = event.key === 'ArrowLeft' ? -1 : 1;
-      const from = activeIndex < thumbCount ? activeIndex : 0;
-      const next = wrapIndex(from + step, thumbCount);
+      const next = wrapIndex(activeIndex + step, total);
 
       setActiveIndex(next);
-      if (inStrip) thumbRefs.current[next]?.focus();
+      // Every photo past the strip is represented by that last slot.
+      if (inStrip) thumbRefs.current[Math.min(next, thumbCount - 1)]?.focus();
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [activeIndex, isLoading, lightboxIndex, thumbCount, total]);
 
+  // Warm the neighbours: arrowing reaches photos the strip never rendered, so
+  // without this the big photo blanks while the next one downloads.
+  useEffect(() => {
+    if (total < 2) return;
+    for (const step of [-1, 1]) {
+      const neighbour = images[wrapIndex(activeIndex + step, total)];
+      if (neighbour) new Image().src = neighbour.url;
+    }
+  }, [activeIndex, images, total]);
+
   if (!active) return null;
 
   const hasOverflow = total > THUMB_SLOTS;
+  const lastSlot = thumbCount - 1;
+  // Sticks at the 4th photo until the active one moves past it.
+  const overflowIndex = Math.max(activeIndex, lastSlot);
 
   return (
     <div className={styles.media}>
@@ -98,43 +113,49 @@ export function BreedGallery({
       {!isLoading && total > 1 && (
         <>
           <ul ref={stripRef} className={styles.thumbs}>
-            {images.slice(0, THUMB_SLOTS).map((image, index) => {
-              const isOverflowTile = hasOverflow && index === THUMB_SLOTS - 1;
-              const isActive = index === activeIndex;
+            {images.slice(0, thumbCount).map((image, slot) => {
+              const isOverflowSlot = hasOverflow && slot === lastSlot;
+              const photoIndex = isOverflowSlot ? overflowIndex : slot;
+              const photo = isOverflowSlot ? images[photoIndex] : image;
+              const isActive = photoIndex === activeIndex;
+              // "+N" only while the tile still stands in for the rest of the set.
+              const showCount = isOverflowSlot && !isActive;
 
               return (
-                <li key={image.id}>
+                // Keyed by slot, not id: slots are positional and fixed-length,
+                // so this keeps one <img> per slot and swapping the overflow
+                // photo re-points src instead of remounting and re-fetching.
+                <li key={slot}>
                   <button
                     type="button"
                     ref={(node) => {
-                      thumbRefs.current[index] = node;
+                      thumbRefs.current[slot] = node;
                     }}
                     className={styles.thumb}
-                    // Roving tabindex: one Tab stop for the whole strip.
-                    tabIndex={
-                      isActive || (activeIndex >= thumbCount && index === 0)
-                        ? 0
-                        : -1
-                    }
+                    // Roving tabindex: one Tab stop for the whole strip. Exactly
+                    // one slot is active, the overflow one included.
+                    tabIndex={isActive ? 0 : -1}
                     aria-current={isActive ? 'true' : undefined}
                     onClick={() =>
-                      isOverflowTile
-                        ? setLightboxIndex(index)
-                        : setActiveIndex(index)
+                      isOverflowSlot
+                        ? setLightboxIndex(photoIndex)
+                        : setActiveIndex(slot)
                     }
                     aria-label={
-                      isOverflowTile
+                      showCount
                         ? `Show all ${total} photos of ${breedName}`
-                        : `Show photo ${index + 1} of ${total} of ${breedName}`
+                        : isOverflowSlot
+                          ? `Open photo ${photoIndex + 1} of ${total} of ${breedName} full size`
+                          : `Show photo ${photoIndex + 1} of ${total} of ${breedName}`
                     }
                   >
                     <img
                       className={styles.thumbImage}
-                      src={image.url}
+                      src={photo.url}
                       alt=""
                       loading="lazy"
                     />
-                    {isOverflowTile && (
+                    {showCount && (
                       <span className={styles.more} aria-hidden="true">
                         +{total - THUMB_SLOTS + 1}
                       </span>
@@ -144,8 +165,12 @@ export function BreedGallery({
               );
             })}
           </ul>
-          <p className={styles.hint} aria-hidden="true">
-            ← → to move
+          <p className={styles.hint}>
+            {/* Live, because the big photo's alt changing announces nothing. */}
+            <span aria-live="polite">
+              {activeIndex + 1} / {total}
+            </span>
+            <span aria-hidden="true"> · ← → to move</span>
           </p>
         </>
       )}
