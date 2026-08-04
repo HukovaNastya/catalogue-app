@@ -19,8 +19,9 @@ export function useBreedsParams() {
 
   const setPage = useCallback(
     (next: number) => {
+      // Relative, so both the breeds list and favourites page in place.
       navigate({
-        to: '/breeds',
+        to: '.',
         search: (prev) => ({ ...prev, page: next }),
         replace: true,
       });

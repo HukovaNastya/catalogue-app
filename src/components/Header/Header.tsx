@@ -16,7 +16,11 @@ export function Header() {
 
       <SearchInput value={q} onChange={setQuery} />
 
-      <Link className={styles.favourites} to="/favourites">
+      <Link
+        className={styles.favourites}
+        to="/favourites"
+        search={(prev) => ({ ...prev, page: 1 })}
+      >
         <span aria-hidden="true">♡</span> Favourites
         {count > 0 && (
           <span className={styles.count}>
