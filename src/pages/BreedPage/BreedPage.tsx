@@ -1,7 +1,10 @@
 import { Link, getRouteApi } from '@tanstack/react-router'
 import { useBreed } from '../../hooks/useBreed.ts'
+import { useBreedImages } from '../../hooks/useBreedImages.ts'
 import { FavouriteButton } from '../../components/FavouriteButton/FavouriteButton.tsx'
-import { getImageUrl } from '../../utils/helper.ts'
+import { BreedGallery } from '../../components/BreedGallery/BreedGallery.tsx'
+import { SimilarBreeds } from '../../components/SimilarBreeds/SimilarBreeds.tsx'
+import { galleryImages, parseTemperament } from '../../utils/helper.ts'
 import styles from './BreedPage.module.css'
 
 const RATING_LABELS: Record<string, string> = {
@@ -18,6 +21,9 @@ const route = getRouteApi('/breeds/$breedId')
 export function BreedPage() {
   const { breedId } = route.useParams()
   const { data: breed, isLoading, isError, error } = useBreed(breedId)
+  // Fires alongside the breed query rather than after it. Failures stay silent:
+  // the reference photo still shows, and the rest of the page is unaffected.
+  const { data: images, isLoading: imagesLoading } = useBreedImages(breedId)
 
   const backLink = (
     <Link className={styles.back} to="/breeds" search={(prev) => prev}>
@@ -43,17 +49,22 @@ export function BreedPage() {
     )
   }
 
-  const imageUrl = getImageUrl(breed)
-  const temperament = breed.temperament ? breed.temperament.split(', ') : []
+  const photos = galleryImages(breed, images ?? [])
+  const temperament = parseTemperament(breed)
 
   return (
     <article className={styles.page}>
       {backLink}
 
       <header className={styles.header}>
-        {imageUrl && (
-          <img className={styles.image} src={imageUrl} alt={breed.name} />
-        )}
+        <BreedGallery
+          // Resets back to the first photo when you move between breeds.
+          key={breed.id}
+          images={photos}
+          breedName={breed.name}
+          isLoading={imagesLoading}
+        />
+
         <div className={styles.summary}>
           <div className={styles.titleRow}>
             <h1 className={styles.name}>{breed.name}</h1>
@@ -120,6 +131,8 @@ export function BreedPage() {
           Rated 1–5 by The Cat API · higher is more
         </p>
       </section>
+
+      <SimilarBreeds breed={breed} />
     </article>
   )
 }

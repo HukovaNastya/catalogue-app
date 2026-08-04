@@ -1,0 +1,116 @@
+import { useEffect, useRef } from 'react';
+import type { CatImage } from '../../services/cat/cat.model.ts';
+import { wrapIndex } from '../../utils/helper.ts';
+import styles from './Lightbox.module.css';
+
+interface LightboxProps {
+  images: CatImage[];
+  index: number;
+  breedName: string;
+  onClose: () => void;
+  onIndexChange: (index: number) => void;
+}
+
+export function Lightbox({
+  images,
+  index,
+  breedName,
+  onClose,
+  onIndexChange,
+}: LightboxProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  // showModal() (not the `open` attribute) is what gives us the top layer,
+  // the focus trap and Esc-to-close for free.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) dialog.showModal();
+  }, []);
+
+  const total = images.length;
+  const safeIndex = total > 0 ? wrapIndex(index, total) : 0;
+  const current = images[safeIndex];
+
+  // Warm the neighbours so arrowing through doesn't flash empty.
+  useEffect(() => {
+    if (total < 2) return;
+    for (const step of [-1, 1]) {
+      const neighbour = images[wrapIndex(safeIndex + step, total)];
+      if (neighbour) new Image().src = neighbour.url;
+    }
+  }, [images, safeIndex, total]);
+
+  if (!current) return null;
+
+  const go = (step: number) => onIndexChange(wrapIndex(safeIndex + step, total));
+  const close = () => dialogRef.current?.close();
+
+  return (
+    <dialog
+      ref={dialogRef}
+      className={styles.dialog}
+      aria-label={`${breedName} photos`}
+      // Fires for Esc and for close() alike, so every exit funnels through here.
+      onClose={onClose}
+      onKeyDown={(event) => {
+        if (total < 2) return;
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          go(-1);
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          go(1);
+        }
+      }}
+      // The dialog box itself is the backdrop area; the figure sits on top.
+      onClick={(event) => {
+        if (event.target === dialogRef.current) close();
+      }}
+    >
+      <div className={styles.inner}>
+        <button
+          type="button"
+          className={`${styles.control} ${styles.close}`}
+          onClick={close}
+          aria-label="Close photos"
+        >
+          ✕
+        </button>
+
+        {total > 1 && (
+          <button
+            type="button"
+            className={`${styles.control} ${styles.prev}`}
+            onClick={() => go(-1)}
+            aria-label="Previous photo"
+          >
+            ←
+          </button>
+        )}
+
+        <figure className={styles.figure}>
+          <img
+            className={styles.image}
+            src={current.url}
+            alt={`${breedName} photo ${safeIndex + 1} of ${total}`}
+          />
+          <figcaption className={styles.caption} aria-live="polite">
+            {safeIndex + 1} / {total}
+          </figcaption>
+        </figure>
+
+        {total > 1 && (
+          <button
+            type="button"
+            className={`${styles.control} ${styles.next}`}
+            onClick={() => go(1)}
+            aria-label="Next photo"
+          >
+            →
+          </button>
+        )}
+      </div>
+    </dialog>
+  );
+}
