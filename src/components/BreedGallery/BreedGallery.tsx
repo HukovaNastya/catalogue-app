@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CatImage } from '../../services/cat/cat.model.ts';
 import { wrapIndex } from '../../utils/helper.ts';
 import { Lightbox } from '../Lightbox/Lightbox.tsx';
@@ -29,38 +29,50 @@ export function BreedGallery({
 
   const total = images.length;
   const active = images[activeIndex] ?? images[0];
+  const thumbCount = Math.min(total, THUMB_SLOTS);
+
+  // Arrow keys walk the strip, moving the selection and the big photo together.
+  // Bound to the document rather than to this subtree: on load focus is still
+  // on <body>, so a handler on the wrapper would not fire until something in
+  // here had been clicked or tabbed into focus.
+  useEffect(() => {
+    // The lightbox runs its own arrows while it is open.
+    if (isLoading || total < 2 || lightboxIndex !== null) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      // Alt+← is browser-back; leave every modifier combination alone.
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+        return;
+      }
+
+      const target = event.target instanceof HTMLElement ? event.target : null;
+      // The header search box is on this page too — it needs its caret keys.
+      if (target?.closest('input, textarea, select, [contenteditable]')) return;
+
+      event.preventDefault();
+
+      // Focus only follows when it is already on a thumb: arrowing from
+      // elsewhere on the page should not yank focus into the strip.
+      const inStrip = stripRef.current?.contains(target) ?? false;
+      const step = event.key === 'ArrowLeft' ? -1 : 1;
+      const from = activeIndex < thumbCount ? activeIndex : 0;
+      const next = wrapIndex(from + step, thumbCount);
+
+      setActiveIndex(next);
+      if (inStrip) thumbRefs.current[next]?.focus();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [activeIndex, isLoading, lightboxIndex, thumbCount, total]);
 
   if (!active) return null;
 
-  const thumbCount = Math.min(total, THUMB_SLOTS);
   const hasOverflow = total > THUMB_SLOTS;
 
-  // Arrow keys walk the strip, moving the selection and the big photo together.
-  // Focus only follows when it is already on a thumb: arrowing from the big
-  // photo should leave you there, so Enter still opens what you are looking at.
-  const moveActive = (step: number, moveFocus: boolean) => {
-    const from = activeIndex < thumbCount ? activeIndex : 0;
-    const next = wrapIndex(from + step, thumbCount);
-    setActiveIndex(next);
-    if (moveFocus) thumbRefs.current[next]?.focus();
-  };
-
   return (
-    // Listening here rather than on the strip is what lets the arrows work
-    // while the big photo has focus, which is where Tab lands you first.
-    <div
-      className={styles.media}
-      onKeyDown={(event) => {
-        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-        // The lightbox sits inside this div, so its own arrow keys would
-        // bubble up here and advance the photo a second time.
-        if (lightboxIndex !== null || isLoading || total < 2) return;
-
-        event.preventDefault();
-        const inStrip = stripRef.current?.contains(event.target as Node) ?? false;
-        moveActive(event.key === 'ArrowLeft' ? -1 : 1, inStrip);
-      }}
-    >
+    <div className={styles.media}>
       <button
         type="button"
         className={styles.imageButton}
