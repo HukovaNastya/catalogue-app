@@ -2,6 +2,7 @@ import { useId, useState } from 'react';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback.ts';
 import { SearchIcon } from '../../assets/icons/SearchIcon.tsx';
 import { Button } from '../Button/Button.tsx';
+import { Input } from '../Input/Input.tsx';
 import styles from './SearchInput.module.css';
 
 interface SearchInputProps {
@@ -66,16 +67,16 @@ export function SearchInput({
         Search breeds
       </label>
       <SearchIcon className={styles.icon} />
-      <input
+      <Input
         id={inputId}
         className={styles.input}
         type="search"
         value={draft}
         placeholder={placeholder}
         autoComplete="off"
-        onChange={(event) => {
-          setDraft(event.target.value);
-          debouncedChange(event.target.value);
+        onValueChange={(next) => {
+          setDraft(next);
+          debouncedChange(next);
         }}
       />
       {draft && (
