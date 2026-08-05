@@ -1,0 +1,30 @@
+:where(.select) {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 8px 28px 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+
+  /* Caret, so removing the native one does not leave the control looking
+     like a read-only field. */
+  background-image: linear-gradient(45deg, transparent 50%, currentcolor 50%),
+    linear-gradient(135deg, currentcolor 50%, transparent 50%);
+  background-position:
+    right 13px center,
+    right 8px center;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+:where(.select):focus-visible {
+  outline: 2px solid var(--accent-border);
+  outline-offset: 1px;
+}

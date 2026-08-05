@@ -15,7 +15,8 @@ type TypographyTag =
   | 'div'
   | 'dt'
   | 'dd'
-  | 'li';
+  | 'li'
+  | 'legend';
 
 type TypographyVariant =
   | 'display'
@@ -26,8 +27,6 @@ type TypographyVariant =
   | 'body'
   | 'small';
 
-// `as` overrides this when the semantics and the looks need to differ — a
-// hidden page heading, or a card title that is an h2 but reads much smaller.
 const DEFAULT_TAG: Record<TypographyVariant, TypographyTag> = {
   display: 'h1',
   title: 'h1',

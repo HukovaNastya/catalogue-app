@@ -1,7 +1,56 @@
-.count {
+.layout {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  flex: 1;
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  border-right: 1px solid var(--border);
+}
+
+.sidebarTitle {
   padding: 16px 16px 0;
-  font-size: 15px;
   text-align: left;
+}
+
+.results {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 16px 0;
+}
+
+.count {
+  text-align: left;
+  white-space: nowrap;
+}
+
+.sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* Pushes sort to the right of the chips, as in the wireframe. */
+  margin-left: auto;
+  color: var(--text);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.sortSelect {
+  width: auto;
+  padding-block: 4px;
+  font-size: 13px;
 }
 
 .empty {
@@ -14,3 +63,24 @@
   padding: 48px 16px;
 }
 
+.emptyActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Phase 2 replaces this with a bottom sheet; until then the panel stacks
+   above the results rather than eating half a 375px screen. */
+@media (max-width: 768px) {
+  .layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: static;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+}
