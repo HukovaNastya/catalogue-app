@@ -4,6 +4,7 @@ import { useBreedImages } from '../../hooks/useBreedImages.ts'
 import { FavouriteButton } from '../../components/FavouriteButton/FavouriteButton.tsx'
 import { BreedGallery } from '../../components/BreedGallery/BreedGallery.tsx'
 import { SimilarBreeds } from '../../components/SimilarBreeds/SimilarBreeds.tsx'
+import { Typography } from '../../components/Typography/Typography.tsx'
 import { galleryImages, parseTemperament } from '../../utils/helper.ts'
 import styles from './BreedPage.module.css'
 
@@ -67,7 +68,7 @@ export function BreedPage() {
 
         <div className={styles.summary}>
           <div className={styles.titleRow}>
-            <h1 className={styles.name}>{breed.name}</h1>
+            <Typography variant="title">{breed.name}</Typography>
             <FavouriteButton
               breedId={breed.id}
               breedName={breed.name}
@@ -103,7 +104,7 @@ export function BreedPage() {
       </header>
 
       <section className={styles.ratings}>
-        <h2>Living with a {breed.name}</h2>
+        <Typography variant="section">Living with a {breed.name}</Typography>
         <dl className={styles.ratingList}>
           {Object.entries(RATING_LABELS).map(([key, label]) => {
             const value = breed[key as keyof typeof breed] as number

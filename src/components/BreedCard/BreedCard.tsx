@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import type { Breed } from '../../services/cat/cat.model.ts';
 import { FavouriteButton } from '../FavouriteButton/FavouriteButton.tsx';
+import { Typography } from '../Typography/Typography.tsx';
 import styles from './BreedCard.module.css';
 import {getImageUrl} from "../../utils/helper.ts";
 
@@ -34,7 +35,7 @@ export function BreedCard({ breed }: BreedCardProps) {
       />
 
       <div>
-        <h2 className={styles.name}>
+        <Typography variant="cardTitle">
           <Link
             className={styles.link}
             to="/breeds/$breedId"
@@ -42,7 +43,7 @@ export function BreedCard({ breed }: BreedCardProps) {
           >
             {breed.name}
           </Link>
-        </h2>
+        </Typography>
         <p className={styles.origin}>{breed.origin}</p>
       </div>
       <div className={styles.ratings}>

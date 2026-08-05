@@ -1,8 +1,6 @@
+/* Size and tracking come from Typography's `heading`; this is layout only. */
 .heading {
-  margin: 0;
   padding: 16px 16px 0;
-  font-size: 28px;
-  letter-spacing: -0.5px;
   text-align: left;
 }
 

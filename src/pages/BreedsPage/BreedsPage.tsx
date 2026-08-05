@@ -4,6 +4,7 @@ import { useBreedsParams } from '../../hooks/useBreedsParams.ts'
 import { BreedList } from '../../components/BreedList/BreedList.tsx'
 import { Button } from '../../components/Button/Button.tsx'
 import { Pagination } from '../../components/Pagination/Pagination.tsx'
+import { Typography } from '../../components/Typography/Typography.tsx'
 import { filterBreeds } from '../../utils/filterBreeds.ts'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
 import styles from './BreedsPage.module.css'
@@ -25,7 +26,9 @@ export function BreedsPage() {
 
   return (
     <>
-      <h1 className={styles.heading}>Breeds</h1>
+      <Typography variant="heading" srOnly>
+        Breeds
+      </Typography>
 
       {isLoading && <p>Loading breeds…</p>}
       {isError && (

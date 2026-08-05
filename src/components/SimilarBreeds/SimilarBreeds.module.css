@@ -10,7 +10,10 @@
   gap: 16px;
 }
 
-.heading {
+/* Scoped to `.head` so it outranks Typography's `section` margin whatever
+   order the two CSS modules land in. The row is baseline-aligned flex, so the
+   heading must not add space below it. */
+.head .heading {
   margin: 0;
 }
 

@@ -4,6 +4,7 @@ import type { Breed } from '../../services/cat/cat.model.ts';
 import { useBreeds } from '../../hooks/useBreeds.ts';
 import { getImageUrl } from '../../utils/helper.ts';
 import { findSimilarBreeds } from '../../utils/similarBreeds.ts';
+import { Typography } from '../Typography/Typography.tsx';
 import styles from './SimilarBreeds.module.css';
 
 const SIMILAR_LIMIT = 3;
@@ -27,7 +28,9 @@ export function SimilarBreeds({ breed }: SimilarBreedsProps) {
   return (
     <section className={styles.section}>
       <div className={styles.head}>
-        <h2 className={styles.heading}>Similar breeds</h2>
+        <Typography variant="section" className={styles.heading}>
+          Similar breeds
+        </Typography>
         <p className={styles.by}>by temperament</p>
       </div>
 

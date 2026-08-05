@@ -6,6 +6,7 @@ import { useFavourites } from '../../hooks/useFavourites.ts'
 import { BreedList } from '../../components/BreedList/BreedList.tsx'
 import { Button } from '../../components/Button/Button.tsx'
 import { Pagination } from '../../components/Pagination/Pagination.tsx'
+import { Typography } from '../../components/Typography/Typography.tsx'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
 import styles from './FavouritesPage.module.css'
 
@@ -33,7 +34,9 @@ export function FavouritesPage() {
 
   return (
     <>
-      <h1 className={styles.heading}>Favourites</h1>
+      <Typography variant="heading" className={styles.heading}>
+        Favourites
+      </Typography>
 
       {isLoading && <p>Loading breeds…</p>}
       {isError && (
