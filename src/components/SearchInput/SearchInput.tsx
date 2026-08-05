@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback.ts';
+import { SearchIcon } from '../../assets/icons/SearchIcon.tsx';
 import styles from './SearchInput.module.css';
 
 interface SearchInputProps {
@@ -48,18 +49,7 @@ export function SearchInput({
       <label className={styles.label} htmlFor={inputId}>
         Search breeds
       </label>
-      <svg
-        className={styles.icon}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        aria-hidden="true"
-      >
-        <circle cx="11" cy="11" r="7" />
-        <line x1="16.65" y1="16.65" x2="21" y2="21" />
-      </svg>
+      <SearchIcon className={styles.icon} />
       <input
         id={inputId}
         className={styles.input}
