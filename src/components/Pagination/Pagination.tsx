@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { getPageWindow, getTotalPages } from '../../utils/pagination';
 import { Button } from '../Button/Button.tsx';
 import styles from './Pagination.module.css';
@@ -30,10 +31,7 @@ export function Pagination({
   const lastItem = Math.min(currentPage * perPage, totalCount);
 
   return (
-    <nav
-      className={[styles.pagination, className].filter(Boolean).join(' ')}
-      aria-label="Pagination"
-    >
+    <nav className={clsx(styles.pagination, className)} aria-label="Pagination">
       <ul className={styles.list}>
         <li>
           <Button

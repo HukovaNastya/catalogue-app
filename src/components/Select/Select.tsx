@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef } from 'react';
+import { clsx } from 'clsx';
 import styles from './Select.module.css';
 
 interface SelectProps extends ComponentPropsWithRef<'select'> {
@@ -14,7 +15,7 @@ export function Select({
 }: SelectProps) {
   return (
     <select
-      className={[styles.select, className].filter(Boolean).join(' ')}
+      className={clsx(styles.select, className)}
       onChange={(event) => {
         onChange?.(event);
         onValueChange?.(event.target.value);

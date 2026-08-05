@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef, ElementType, Ref } from 'react';
+import { clsx } from 'clsx';
 import styles from './Typography.module.css';
 
 // Text-level tags only: they share one attribute surface, so the component can
@@ -59,14 +60,12 @@ export function Typography({
 
   return (
     <Tag
-      className={[
+      className={clsx(
         styles[variant],
         tone && styles[tone],
         srOnly && styles.srOnly,
         className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
+      )}
       {...rest}
     />
   );

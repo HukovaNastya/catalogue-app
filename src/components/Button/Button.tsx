@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef } from 'react';
+import { clsx } from 'clsx';
 import styles from './Button.module.css';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'bare';
@@ -16,9 +17,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={[styles.button, styles[variant], className]
-        .filter(Boolean)
-        .join(' ')}
+      className={clsx(styles.button, styles[variant], className)}
       {...rest}
     />
   );

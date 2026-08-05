@@ -1,4 +1,5 @@
 import type { ComponentPropsWithRef } from 'react';
+import { clsx } from 'clsx';
 import styles from './Input.module.css';
 
 type InputVariant = 'field' | 'bare';
@@ -19,9 +20,7 @@ export function Input({
   return (
     <input
       type={type}
-      className={[styles.input, styles[variant], className]
-        .filter(Boolean)
-        .join(' ')}
+      className={clsx(styles.input, styles[variant], className)}
       onChange={(event) => {
         onChange?.(event);
         onValueChange?.(event.target.value);

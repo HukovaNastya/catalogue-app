@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { useFavourites } from '../../hooks/useFavourites.ts';
 import { Button } from '../Button/Button.tsx';
 import styles from './FavouriteButton.module.css';
@@ -5,7 +6,6 @@ import styles from './FavouriteButton.module.css';
 interface FavouriteButtonProps {
   breedId: string;
   breedName: string;
-  /** Renders "Save"/"Saved" next to the heart. Icon-only otherwise. */
   withLabel?: boolean;
   className?: string;
 }
@@ -22,8 +22,7 @@ export function FavouriteButton({
   return (
     <Button
       variant="bare"
-      className={[styles.button, className].filter(Boolean).join(' ')}
-      // aria-pressed is what makes a heart icon legible to a screen reader.
+      className={clsx(styles.button, className)}
       aria-pressed={isSaved}
       aria-label={
         isSaved

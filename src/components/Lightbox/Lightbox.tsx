@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { clsx } from 'clsx';
 import type { CatImage } from '../../services/cat/cat.model.ts';
 import { wrapIndex } from '../../utils/helper.ts';
 import { Button } from '../Button/Button.tsx';
@@ -72,7 +73,7 @@ export function Lightbox({
       <div className={styles.inner}>
         <Button
           variant="bare"
-          className={`${styles.control} ${styles.close}`}
+          className={clsx(styles.control, styles.close)}
           onClick={close}
           aria-label="Close photos"
         >
@@ -82,7 +83,7 @@ export function Lightbox({
         {total > 1 && (
           <Button
             variant="bare"
-            className={`${styles.control} ${styles.prev}`}
+            className={clsx(styles.control, styles.prev)}
             onClick={() => go(-1)}
             aria-label="Previous photo"
           >
@@ -104,7 +105,7 @@ export function Lightbox({
         {total > 1 && (
           <Button
             variant="bare"
-            className={`${styles.control} ${styles.next}`}
+            className={clsx(styles.control, styles.next)}
             onClick={() => go(1)}
             aria-label="Next photo"
           >
