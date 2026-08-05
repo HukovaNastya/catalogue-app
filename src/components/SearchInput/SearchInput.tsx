@@ -7,6 +7,9 @@ import styles from './SearchInput.module.css';
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
+  // Lets the host treat the clear button differently from an empty search —
+  // defaults to an ordinary `onChange('')`.
+  onClear?: () => void;
   placeholder?: string;
   delay?: number;
 }
@@ -14,6 +17,7 @@ interface SearchInputProps {
 export function SearchInput({
   value,
   onChange,
+  onClear,
   placeholder = 'Search breeds…',
   delay = 250,
 }: SearchInputProps) {
@@ -36,6 +40,17 @@ export function SearchInput({
     cancel();
     setDraft(next);
     onChange(next);
+  };
+
+  const clear = () => {
+    if (!onClear) {
+      commit('');
+      return;
+    }
+
+    cancel();
+    setDraft('');
+    onClear();
   };
 
   return (
@@ -68,7 +83,7 @@ export function SearchInput({
           variant="ghost"
           className={styles.clear}
           aria-label="Clear search"
-          onClick={() => commit('')}
+          onClick={clear}
         >
           ×
         </Button>

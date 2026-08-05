@@ -5,7 +5,7 @@ import { useFavourites } from '../../hooks/useFavourites.ts';
 import styles from './Header.module.css';
 
 export function Header() {
-  const { q, setQuery } = useBreedsParams();
+  const { q, setQuery, clearQuery } = useBreedsParams();
   const { count } = useFavourites();
 
   return (
@@ -14,7 +14,7 @@ export function Header() {
         Breeds
       </Link>
 
-      <SearchInput value={q} onChange={setQuery} />
+      <SearchInput value={q} onChange={setQuery} onClear={clearQuery} />
 
       <Link
         className={styles.favourites}
