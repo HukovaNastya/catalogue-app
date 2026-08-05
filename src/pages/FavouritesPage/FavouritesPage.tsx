@@ -71,6 +71,7 @@ export function FavouritesPage() {
           )}
 
           <Pagination
+            className={styles.pagination}
             totalCount={totalCount}
             currentPage={currentPage}
             perPage={PER_PAGE}

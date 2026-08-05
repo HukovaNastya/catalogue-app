@@ -9,6 +9,7 @@ interface PaginationProps {
   perPage?: number;
   maxButtons?: number;
   showRange?: boolean;
+  className?: string;
 }
 
 export function Pagination({
@@ -18,6 +19,7 @@ export function Pagination({
   perPage = 12,
   maxButtons = 10,
   showRange = false,
+  className,
 }: PaginationProps) {
   const totalPages = getTotalPages(totalCount, perPage);
 
@@ -28,7 +30,10 @@ export function Pagination({
   const lastItem = Math.min(currentPage * perPage, totalCount);
 
   return (
-    <nav className={styles.pagination} aria-label="Pagination">
+    <nav
+      className={[styles.pagination, className].filter(Boolean).join(' ')}
+      aria-label="Pagination"
+    >
       <ul className={styles.list}>
         <li>
           <Button

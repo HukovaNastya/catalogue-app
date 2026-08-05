@@ -18,9 +18,13 @@
 
 .results {
   display: flex;
-  flex: 1;
+  align-self: stretch;
   flex-direction: column;
   min-width: 0;
+}
+
+.pagination {
+  margin-top: auto;
 }
 
 .bar {
