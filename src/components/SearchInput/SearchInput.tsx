@@ -1,6 +1,7 @@
 import { useId, useState } from 'react';
 import { useDebouncedCallback } from '../../hooks/useDebouncedCallback.ts';
 import { SearchIcon } from '../../assets/icons/SearchIcon.tsx';
+import { Button } from '../Button/Button.tsx';
 import styles from './SearchInput.module.css';
 
 interface SearchInputProps {
@@ -63,14 +64,14 @@ export function SearchInput({
         }}
       />
       {draft && (
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           className={styles.clear}
           aria-label="Clear search"
           onClick={() => commit('')}
         >
           ×
-        </button>
+        </Button>
       )}
     </form>
   );

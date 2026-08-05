@@ -53,6 +53,7 @@
   display: none;
 }
 
+/* Colour, hover and reset come from Button's `ghost`. */
 .clear {
   position: absolute;
   right: 4px;
@@ -60,15 +61,7 @@
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
-  border: 0;
   border-radius: 50%;
-  background: transparent;
-  color: var(--text);
   font-size: 18px;
   line-height: 1;
-  cursor: pointer;
-}
-
-.clear:hover {
-  color: var(--text-h);
 }

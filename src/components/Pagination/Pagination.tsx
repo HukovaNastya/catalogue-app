@@ -1,4 +1,5 @@
 import { getPageWindow, getTotalPages } from '../../utils/pagination';
+import { Button } from '../Button/Button.tsx';
 import styles from './Pagination.module.css';
 
 interface PaginationProps {
@@ -30,39 +31,36 @@ export function Pagination({
     <nav className={styles.pagination} aria-label="Pagination">
       <ul className={styles.list}>
         <li>
-          <button
-            type="button"
+          <Button
             className={styles.button}
             onClick={() => onChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
             ← Prev
-          </button>
+          </Button>
         </li>
 
         {pageNumbers.map((number) => (
           <li key={number}>
-            <button
-              type="button"
+            <Button
               className={styles.button}
               aria-current={number === currentPage ? 'page' : undefined}
               aria-label={`Page ${number}`}
               onClick={() => onChange(number)}
             >
               {number}
-            </button>
+            </Button>
           </li>
         ))}
 
         <li>
-          <button
-            type="button"
+          <Button
             className={styles.button}
             onClick={() => onChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
             Next →
-          </button>
+          </Button>
         </li>
       </ul>
 

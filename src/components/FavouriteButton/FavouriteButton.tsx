@@ -1,4 +1,5 @@
 import { useFavourites } from '../../hooks/useFavourites.ts';
+import { Button } from '../Button/Button.tsx';
 import styles from './FavouriteButton.module.css';
 
 interface FavouriteButtonProps {
@@ -19,8 +20,8 @@ export function FavouriteButton({
   const isSaved = isFavourite(breedId);
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="bare"
       className={[styles.button, className].filter(Boolean).join(' ')}
       // aria-pressed is what makes a heart icon legible to a screen reader.
       aria-pressed={isSaved}
@@ -35,6 +36,6 @@ export function FavouriteButton({
         {isSaved ? '♥' : '♡'}
       </span>
       {withLabel && <span>{isSaved ? 'Saved' : 'Save'}</span>}
-    </button>
+    </Button>
   );
 }

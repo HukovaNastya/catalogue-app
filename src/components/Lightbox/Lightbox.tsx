@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { CatImage } from '../../services/cat/cat.model.ts';
 import { wrapIndex } from '../../utils/helper.ts';
+import { Button } from '../Button/Button.tsx';
 import styles from './Lightbox.module.css';
 
 interface LightboxProps {
@@ -69,24 +70,24 @@ export function Lightbox({
       }}
     >
       <div className={styles.inner}>
-        <button
-          type="button"
+        <Button
+          variant="bare"
           className={`${styles.control} ${styles.close}`}
           onClick={close}
           aria-label="Close photos"
         >
           ✕
-        </button>
+        </Button>
 
         {total > 1 && (
-          <button
-            type="button"
+          <Button
+            variant="bare"
             className={`${styles.control} ${styles.prev}`}
             onClick={() => go(-1)}
             aria-label="Previous photo"
           >
             ←
-          </button>
+          </Button>
         )}
 
         <figure className={styles.figure}>
@@ -101,14 +102,14 @@ export function Lightbox({
         </figure>
 
         {total > 1 && (
-          <button
-            type="button"
+          <Button
+            variant="bare"
             className={`${styles.control} ${styles.next}`}
             onClick={() => go(1)}
             aria-label="Next photo"
           >
             →
-          </button>
+          </Button>
         )}
       </div>
     </dialog>

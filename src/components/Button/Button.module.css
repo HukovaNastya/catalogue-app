@@ -1,0 +1,48 @@
+:where(.button) {
+  font: inherit;
+  cursor: pointer;
+}
+
+:where(.button):disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+:where(.primary, .secondary) {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+:where(.primary) {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+}
+
+:where(.secondary):hover:not(:disabled) {
+  border-color: var(--accent-border);
+  color: var(--text-h);
+}
+
+:where(.ghost) {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-size: 15px;
+}
+
+:where(.ghost):hover:not(:disabled) {
+  color: var(--text-h);
+}
+
+:where(.bare) {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+}

@@ -18,24 +18,6 @@
 
 .button {
   min-width: 40px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg);
-  color: var(--text);
-  font: inherit;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.button:hover:not(:disabled) {
-  border-color: var(--accent-border);
-  color: var(--text-h);
-}
-
-.button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .button[aria-current='page'] {

@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useBreeds } from '../../hooks/useBreeds.ts'
 import { useBreedsParams } from '../../hooks/useBreedsParams.ts'
 import { BreedList } from '../../components/BreedList/BreedList.tsx'
+import { Button } from '../../components/Button/Button.tsx'
 import { Pagination } from '../../components/Pagination/Pagination.tsx'
 import { filterBreeds } from '../../utils/filterBreeds.ts'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
@@ -40,13 +41,9 @@ export function BreedsPage() {
           {totalCount === 0 ? (
             <div className={styles.empty}>
               <p>No breeds match “{q}”.</p>
-              <button
-                type="button"
-                className={styles.clear}
-                onClick={() => setQuery('')}
-              >
+              <Button variant="primary" onClick={() => setQuery('')}>
                 Clear search
-              </button>
+              </Button>
             </div>
           ) : (
             <BreedList breeds={visibleBreeds} />

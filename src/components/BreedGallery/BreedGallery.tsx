@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CatImage } from '../../services/cat/cat.model.ts';
 import { wrapIndex } from '../../utils/helper.ts';
+import { Button } from '../Button/Button.tsx';
 import { Lightbox } from '../Lightbox/Lightbox.tsx';
 import styles from './BreedGallery.module.css';
 
@@ -88,8 +89,8 @@ export function BreedGallery({
 
   return (
     <div className={styles.media}>
-      <button
-        type="button"
+      <Button
+        variant="bare"
         className={styles.imageButton}
         onClick={() => setLightboxIndex(activeIndex)}
         aria-label={`Open photo ${activeIndex + 1} of ${total} of ${breedName} full size`}
@@ -100,7 +101,7 @@ export function BreedGallery({
           src={active.url}
           alt={`${breedName} photo ${activeIndex + 1} of ${total}`}
         />
-      </button>
+      </Button>
 
       {isLoading && (
         <ul className={styles.thumbs} aria-hidden="true">
@@ -126,8 +127,8 @@ export function BreedGallery({
                 // so this keeps one <img> per slot and swapping the overflow
                 // photo re-points src instead of remounting and re-fetching.
                 <li key={slot}>
-                  <button
-                    type="button"
+                  <Button
+                    variant="bare"
                     ref={(node) => {
                       thumbRefs.current[slot] = node;
                     }}
@@ -160,7 +161,7 @@ export function BreedGallery({
                         +{total - THUMB_SLOTS + 1}
                       </span>
                     )}
-                  </button>
+                  </Button>
                 </li>
               );
             })}

@@ -6,11 +6,10 @@
   max-width: 100%;
 }
 
+/* `bare` strips the chrome; zoom-in overrides its inherited pointer cursor. */
 .imageButton {
   display: block;
   width: 100%;
-  padding: 0;
-  border: none;
   border-radius: 8px;
   background: var(--code-bg);
   cursor: zoom-in;
@@ -44,12 +43,10 @@
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  padding: 0;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--code-bg);
   overflow: hidden;
-  cursor: pointer;
 }
 
 .thumb:hover {

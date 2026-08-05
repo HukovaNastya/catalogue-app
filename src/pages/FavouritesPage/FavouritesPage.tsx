@@ -4,6 +4,7 @@ import { useBreeds } from '../../hooks/useBreeds.ts'
 import { useBreedsParams } from '../../hooks/useBreedsParams.ts'
 import { useFavourites } from '../../hooks/useFavourites.ts'
 import { BreedList } from '../../components/BreedList/BreedList.tsx'
+import { Button } from '../../components/Button/Button.tsx'
 import { Pagination } from '../../components/Pagination/Pagination.tsx'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
 import styles from './FavouritesPage.module.css'
@@ -46,9 +47,9 @@ export function FavouritesPage() {
               {totalCount} saved {totalCount === 1 ? 'breed' : 'breeds'}
             </p>
             {totalCount > 0 && (
-              <button type="button" className={styles.clear} onClick={clear}>
+              <Button className={styles.clear} onClick={clear}>
                 Clear all
-              </button>
+              </Button>
             )}
           </div>
 
