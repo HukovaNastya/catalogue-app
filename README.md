@@ -32,6 +32,13 @@ The page will reload when you make changes.
 
 ### `npm run lint` - runs ESLint across the project.
 
+### `npm run test:e2e` - runs the Playwright end-to-end suite.
+
+Builds the app, serves it on port 4173 and drives it against a mocked TheCatAPI —
+no API key or network needed. `npm run test:e2e:ui` opens the watch-mode
+debugger. See [`e2e/README.md`](./e2e/README.md) for the fixture data the
+assertions are built on.
+
 ## Routes
 
 | Route               | Description                                                        |
