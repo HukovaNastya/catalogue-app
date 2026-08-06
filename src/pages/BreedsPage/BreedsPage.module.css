@@ -2,13 +2,15 @@
   display: grid;
   grid-template-columns: 210px 1fr;
   flex: 1;
-  align-items: start;
 }
 
 .sidebar {
+  border-right: 1px solid var(--border);
+}
+
+.sidebarInner {
   position: sticky;
   top: 0;
-  border-right: 1px solid var(--border);
 }
 
 .sidebarTitle {
@@ -18,7 +20,6 @@
 
 .results {
   display: flex;
-  align-self: stretch;
   flex-direction: column;
   min-width: 0;
 }
@@ -83,8 +84,11 @@
   }
 
   .sidebar {
-    position: static;
     border-right: 0;
     border-bottom: 1px solid var(--border);
+  }
+
+  .sidebarInner {
+    position: static;
   }
 }

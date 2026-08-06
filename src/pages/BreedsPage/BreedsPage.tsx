@@ -57,14 +57,16 @@ export function BreedsPage() {
       </Typography>
 
       <aside className={styles.sidebar}>
-        <Typography variant="cardTitle" className={styles.sidebarTitle}>
-          Filters
-        </Typography>
-        <BreedFilters
-          value={filters}
-          onChange={setFilters}
-          origins={origins}
-        />
+        <div className={styles.sidebarInner}>
+          <Typography variant="cardTitle" className={styles.sidebarTitle}>
+            Filters
+          </Typography>
+          <BreedFilters
+            value={filters}
+            onChange={setFilters}
+            origins={origins}
+          />
+        </div>
       </aside>
 
       <div className={styles.results}>
