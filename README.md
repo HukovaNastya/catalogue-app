@@ -2,8 +2,8 @@
 
 A cat breed catalogue built with React 19, TypeScript and Vite. Breed data comes from
 [TheCatAPI](https://thecatapi.com/), is fetched with TanStack Query and browsed through a
-searchable, paginated grid. Search text and page number live in the URL, so any view can be
-shared or bookmarked.
+searchable, filterable, paginated grid. Every filter lives in the URL, so any view can be
+shared or bookmarked. Breeds can be saved to a favourites list held in `localStorage`.
 
 ### Create .env file at the project root folder with environment variables as in the table.
 
@@ -44,24 +44,86 @@ assertions are built on.
 | Route               | Description                                                        |
 |---------------------|--------------------------------------------------------------------|
 | `/`                 | Redirects to `/breeds`                                              |
-| `/breeds`           | Breed grid. Accepts `?q=` (search) and `?page=` (1-based) params     |
-| `/breeds/:breedId`  | Details of a single breed                                           |
+| `/breeds`           | Breed grid, with the filter sidebar. Accepts every parameter below   |
+| `/breeds/:breedId`  | Details of a single breed — gallery, ratings, similar breeds         |
+| `/favourites`       | The saved breeds, most recently saved first. Accepts `?page=`        |
+
+### Search parameters
+
+Defined and validated in `src/routeSearch.ts`, shared by every route.
+
+| Parameter  | Value                                                        | Default |
+|------------|--------------------------------------------------------------|---------|
+| `q`        | Search text, matched against breed name and origin            | `''`    |
+| `page`     | 1-based page number                                           | `1`     |
+| `kids`     | Minimum "good with kids" rating — `3`, `4` or `5`             | `0` (any) |
+| `grooming` | Comma-separated grooming levels, e.g. `grooming=1,2`          | `''`    |
+| `traits`   | Comma-separated, from `hypoallergenic` and `rare`             | `''`    |
+| `origin`   | Exact origin country                                          | `''`    |
+| `sort`     | `name` or `name-desc`                                         | `name`  |
+
+A parameter at its default is stripped from the address bar, so a clean URL means no filters.
+Anything unrecognised is normalised away rather than throwing — `?kids=99&traits=bogus` degrades
+to "no filter" instead of an error page.
 
 ## Project structure
 
 ```
 src/
-├── components/   BreedCard, Header, Pagination, SearchInput (CSS modules alongside)
-├── hooks/        useBreeds, useBreed, useBreedsParams, useDebouncedCallback
-├── pages/        BreedsPage, BreedPage, ErrorPage
-├── services/     TheCatAPI client and models
-└── utils/        breed filtering, pagination maths, helpers
+├── assets/icons/   Inline SVG components (CatalogueIcon, SearchIcon, CloseIcon)
+├── components/
+│   ├── breed/      BreedCard, BreedList, BreedFilters, BreedGallery, EmptyState, SimilarBreeds
+│   └── common/     Button, Header, Input, Select, Pagination, SearchInput, Typography, Lightbox
+├── hooks/          useBreeds, useBreed, useBreedImages, useBreedsParams, useBreedFilters,
+│                   useFavourites, useDebouncedCallback
+├── pages/          BreedsPage, BreedPage, FavouritesPage, ErrorPage
+├── services/       TheCatAPI client and models, favourites store, localStorage helpers
+├── utils/          Breed filtering, pagination maths, similar breeds, thumbnail slots
+├── index.css       Design tokens and base styles
+├── routeSearch.ts  Search-parameter schema, validation and defaults
+└── router.tsx      Route definitions
 ```
+
+CSS modules sit alongside the component they style.
 
 ## How it works
 
-- **Search** filters the loaded breed list by name or origin, debounced while typing.
-- **Pagination** is client-side, 12 breeds per page, with a sliding window of up to 10 page buttons.
-- **URL is the state** — `useBreedsParams` owns `q` and `page`; changing the query resets the page
-  back to 1 so a narrowed result set never lands on an empty page.
+- **Search** filters the loaded breed list by name or origin, debounced 250 ms while typing.
+- **Filters** stack as AND — a breed has to satisfy every active one. Each shows as a chip you can
+  remove individually, or "Clear all" resets them in one go.
+- **Sort survives a clear.** It is a view preference rather than a filter, so "Clear all" empties
+  the search box and every filter but leaves the ordering alone.
+- **Pagination** is client-side — 9 breeds per page on the grid, 10 on favourites — with a sliding
+  window of up to 10 page buttons.
+- **URL is the state** — `useBreedsParams` owns `q` and `page`, `useBreedFilters` owns the rest.
+  Changing any of them resets the page back to 1, so a narrowed result set never lands on an
+  empty page.
+- **Empty results explain themselves** rather than showing a bare "no results": the state names
+  which filter is to blame and offers to clear just that one, and it distinguishes "no such breed"
+  from "filtered out".
+- **Favourites** live in `localStorage` under `catalogue:favourites`, newest first. They are not
+  in the URL — they belong to the browser, not the view.
 - **Caching** is handled by TanStack Query; breeds are fetched once and reused across pages.
+
+## Design tokens
+
+All colour and geometry lives in one block at the top of `src/index.css`, in three layers:
+
+- **Ramps** — `--brand-*` (slate indigo) and `--n-*` (warm neutrals, not pure grey).
+- **Roles** — `--page`, `--surface`, `--border`, `--border-hover`, `--text`, `--text-muted`,
+  `--text-subtle`, `--rating-filled`, `--rating-empty`, `--focus-ring`.
+- **Geometry** — `--radius-xs` through `--radius-lg`.
+
+Components read the **role** layer wherever a role exists; the ramp is used directly only for
+image wells and skeletons, which have none of their own. Reaching past a role into a raw hex is
+what would turn a future dark theme from a value swap into a refactor.
+
+Two rules the palette encodes:
+
+- `--brand` marks interaction or state — buttons, the current page, active controls. Ratings use
+  `--rating-filled` (a lighter indigo) so data never reads as something you can click. Keeping
+  them one hue apart leaves `--warning` free to mean an actual warning.
+- Cards sit on `--surface` against a `--page` background. That two-step separation is what makes
+  the grid read as cards without shadows.
+
+Light mode only, deliberately. A dark theme is a value swap in the role layer, not a refactor.
