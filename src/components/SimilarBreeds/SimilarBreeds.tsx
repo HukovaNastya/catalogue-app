@@ -13,8 +13,6 @@ interface SimilarBreedsProps {
 }
 
 export function SimilarBreeds({ breed }: SimilarBreedsProps) {
-  // Usually a cache hit — anyone arriving from the list already has it. On a
-  // deep link this fetches, and the section just stays hidden until it lands.
   const { data: breeds } = useBreeds();
 
   const matches = useMemo(

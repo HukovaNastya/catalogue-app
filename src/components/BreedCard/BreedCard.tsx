@@ -31,7 +31,9 @@ export function BreedCard({ breed }: BreedCardProps) {
         ) : (
           <div className={styles.imagePlaceholder}>
             <CatIcon className={styles.placeholderIcon} />
-            <span>No photo</span>
+            <Typography as="span" variant="small">
+              No photo
+            </Typography>
           </div>
         )}
       </div>
@@ -54,8 +56,12 @@ export function BreedCard({ breed }: BreedCardProps) {
         <p className={styles.origin}>{breed.origin}</p>
       </div>
       <div className={styles.ratings}>
-        <span className={styles.rating}>kids {breed.child_friendly}</span>
-        <span className={styles.rating}>energy {breed.energy_level}</span>
+        <Typography as="span" variant="small" tone="muted" className={styles.rating}>
+          kids {breed.child_friendly}
+        </Typography>
+        <Typography as="span" variant="small" tone="muted" className={styles.rating}>
+          energy {breed.energy_level}
+        </Typography>
       </div>
     </article>
   );

@@ -70,7 +70,6 @@
   width: 100%;
   height: 100%;
   color: var(--text);
-  font-size: 13px;
 }
 
 /* The icon is sized in em, so this is what sets it. */
@@ -88,8 +87,6 @@
 .ratings {
   display: flex;
   gap: 8px;
-  font-size: 13px;
-  color: var(--text);
 }
 
 .rating {
