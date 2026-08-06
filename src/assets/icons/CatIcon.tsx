@@ -14,7 +14,6 @@ export function CatIcon(props: SVGProps<SVGSVGElement>) {
       aria-hidden="true"
       {...props}
     >
-      {/* Ears: apex above the head, both feet landing on its circumference. */}
       <path d="M6.8 11 5.5 4.5 10.4 8.2" />
       <path d="M17.2 11 18.5 4.5 13.6 8.2" />
       <circle cx="12" cy="14" r="6" />

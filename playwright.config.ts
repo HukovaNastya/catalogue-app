@@ -5,7 +5,6 @@ const BASE_URL = `http://localhost:${PORT}`
 
 export default defineConfig({
   testDir: './e2e/specs',
-  // Every spec mocks TheCatAPI, so nothing here shares state between workers.
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
@@ -19,9 +18,6 @@ export default defineConfig({
   },
 
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
-
-  // The production build rather than `npm run dev`: it is what actually ships,
-  // and there is no HMR socket reconnecting mid-test.
   webServer: {
     command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
     url: BASE_URL,

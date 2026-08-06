@@ -6,12 +6,9 @@ function readFromStorage(): string[] {
   const value = storage.getItem<unknown>(KEY);
   if (!Array.isArray(value)) return [];
 
-  // A hand-edited or half-written entry must not reach the UI.
   return value.filter((id): id is string => typeof id === 'string');
 }
 
-// Module-level state: `getSnapshot` has to return a stable reference, so this
-// variable is reassigned on change rather than rebuilt on every read.
 let favourites: string[] = readFromStorage();
 
 const listeners = new Set<() => void>();
@@ -26,7 +23,6 @@ function commit(next: string[]) {
   emit();
 }
 
-// Fires in the *other* tabs only, which is exactly what we want.
 window.addEventListener('storage', (event) => {
   if (event.key !== KEY) return;
   favourites = readFromStorage();

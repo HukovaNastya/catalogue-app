@@ -20,14 +20,11 @@ export default defineConfig([
     },
   },
   {
-    // Playwright runs in Node: `process`, `Buffer` and friends are legal here.
     files: ['e2e/**/*.ts', 'playwright.config.ts'],
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
     },
     rules: {
-      // Playwright fixtures call `use(...)`, which the React plugin reads as a
-      // hook. There is no React in this folder.
       'react-hooks/rules-of-hooks': 'off',
     },
   },

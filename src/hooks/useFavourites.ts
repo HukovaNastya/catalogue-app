@@ -7,7 +7,6 @@ export function useFavourites() {
     favouritesStore.getSnapshot,
   );
 
-  // The list renders a dozen cards per page — each one asks "am I favourited?".
   const idSet = useMemo(() => new Set(ids), [ids]);
 
   const isFavourite = useCallback((breedId: string) => idSet.has(breedId), [

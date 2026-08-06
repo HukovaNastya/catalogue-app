@@ -6,8 +6,6 @@ import type {
 import { KIDS_OPTIONS, TRAIT_OPTIONS } from './utils/filterBreeds.ts';
 import type { SortKey, Trait } from './utils/filterBreeds.ts';
 
-// URL-shaped on purpose: primitives here, parsed into typed filters by
-// useBreedFilters. Keeps the address bar readable — ?kids=4&grooming=1,2.
 export interface AppSearch {
   q: string;
   page: number;
@@ -37,8 +35,6 @@ function parseList(raw: unknown): string[] {
   return raw.split(',').map((part) => part.trim());
 }
 
-// Everything below drops anything it does not recognise, so a hand-edited URL
-// degrades to "no filter" rather than to a broken list.
 function normaliseGrooming(raw: unknown): string {
   const levels = parseList(raw)
     .map(Number)
@@ -79,8 +75,6 @@ export function validateSearch(
 
 export const searchMiddlewares: SearchMiddleware<AppSearch>[] = [
   stripSearchParams(DEFAULT_SEARCH),
-  // Every key, so filters survive a hop to a breed page and back — the whole
-  // point of "Back to results keeps your filters".
   retainSearchParams(SEARCH_KEYS),
 ];
 

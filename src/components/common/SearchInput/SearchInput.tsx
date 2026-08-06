@@ -8,8 +8,6 @@ import styles from './SearchInput.module.css';
 interface SearchInputProps {
   value: string;
   onChange: (value: string) => void;
-  // Lets the host treat the clear button differently from an empty search —
-  // defaults to an ordinary `onChange('')`.
   onClear?: () => void;
   placeholder?: string;
   delay?: number;
@@ -30,8 +28,6 @@ export function SearchInput({
     delay,
   );
 
-  // Re-sync when the URL changes from outside — back button, brand link,
-  // or a shared link opened directly.
   if (syncedValue !== value) {
     setSyncedValue(value);
     setDraft(value);

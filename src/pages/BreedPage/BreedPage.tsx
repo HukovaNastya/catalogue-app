@@ -22,8 +22,6 @@ const route = getRouteApi('/breeds/$breedId')
 export function BreedPage() {
   const { breedId } = route.useParams()
   const { data: breed, isLoading, isError, error } = useBreed(breedId)
-  // Fires alongside the breed query rather than after it. Failures stay silent:
-  // the reference photo still shows, and the rest of the page is unaffected.
   const { data: images, isLoading: imagesLoading } = useBreedImages(breedId)
 
   const backLink = (
@@ -59,7 +57,6 @@ export function BreedPage() {
 
       <header className={styles.header}>
         <BreedGallery
-          // Resets back to the first photo when you move between breeds.
           key={breed.id}
           images={photos}
           breedName={breed.name}

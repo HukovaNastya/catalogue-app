@@ -12,7 +12,6 @@ function getItem<T>(key: string): T | null {
     const value = localStorage.getItem(key);
     return value ? (JSON.parse(value) as T) : null;
   } catch {
-    // Storage is blocked, or the stored value is not the JSON we wrote.
     return null;
   }
 }
@@ -23,7 +22,6 @@ function setItem({ key, value }: { key: string; value: unknown }) {
     return;
   }
 
-  // Only null/undefined are rejected — `0`, `''` and `false` are storable values.
   if (value === undefined || value === null) {
     console.warn(`Refusing to store ${value} under "${key}"`);
     return;

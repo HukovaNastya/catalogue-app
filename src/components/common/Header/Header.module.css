@@ -19,14 +19,12 @@
   text-decoration: none;
 }
 
-/* 26px against the 19px wordmark, as in the mockup. */
 .brandMark {
   flex: none;
   font-size: 1.368em;
   color: var(--brand);
 }
 
-/* Typography's `body` variant hard-codes 15px; the wordmark sets its own size. */
 .brand .brandWord,
 .brand .brandTint {
   font-size: inherit;

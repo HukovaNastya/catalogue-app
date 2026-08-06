@@ -17,8 +17,6 @@ export function FavouritesPage() {
   const { ids, clear } = useFavourites()
   const { page, setPage } = useBreedsParams()
 
-  // Mapping over `ids` rather than filtering `breeds` keeps the store's order —
-  // most recently saved first — and drops ids the API no longer returns.
   const saved = useMemo(() => {
     if (!breeds) return []
     const byId = new Map(breeds.map((breed) => [breed.id, breed]))

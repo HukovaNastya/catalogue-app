@@ -16,8 +16,6 @@ export function useBreedFilters() {
   const search = useSearch({ from: '__root__' });
   const navigate = useNavigate();
 
-  // Deps are the primitives, not the object: a fresh object every render would
-  // invalidate every memo downstream that keys off `filters`.
   const filters = useMemo<BreedFilters>(
     () => ({
       q: search.q,
@@ -43,7 +41,6 @@ export function useBreedFilters() {
     (next: Partial<BreedFilters>) => {
       navigate({
         to: '.',
-        // Any filter change invalidates the current page, same rule as search.
         search: (prev) => ({ ...prev, ...serialise(next), page: 1 }),
         replace: true,
       });
@@ -59,7 +56,6 @@ export function useBreedFilters() {
   );
 
   const clearFilters = useCallback(() => {
-    // Sort is a view preference, not a filter — it survives a clear.
     setFilters({
       q: EMPTY_FILTERS.q,
       kids: EMPTY_FILTERS.kids,

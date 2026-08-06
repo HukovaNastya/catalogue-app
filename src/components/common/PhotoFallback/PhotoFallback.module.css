@@ -7,8 +7,6 @@
   width: 100%;
   height: 100%;
   color: var(--text-subtle);
-  /* CatIcon is 1em, so this is the icon size — callers override to resize it.
-     The label keeps its own size through Typography. */
   font-size: 34px;
 }
 

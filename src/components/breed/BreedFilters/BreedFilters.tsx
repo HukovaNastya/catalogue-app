@@ -33,7 +33,6 @@ export function BreedFilters({ value, onChange, origins }: BreedFiltersProps) {
   };
 
   return (
-    // Heading order follows the wireframe: most-used filter first.
     <form className={styles.panel}>
       <fieldset className={styles.group}>
         <Typography as="legend" variant="small" tone="strong">
@@ -49,8 +48,6 @@ export function BreedFilters({ value, onChange, origins }: BreedFiltersProps) {
                 variant={active ? 'primary' : 'secondary'}
                 className={styles.segment}
                 aria-pressed={active}
-                // Pressing the active option clears it — the only way back to
-                // "any" without a chip.
                 onClick={() => onChange({ kids: active ? 0 : rating })}
               >
                 {rating === 5 ? '5' : `${rating}+`}

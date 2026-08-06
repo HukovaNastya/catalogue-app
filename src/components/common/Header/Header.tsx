@@ -33,7 +33,6 @@ export function Header() {
         {count > 0 && (
           <div className={styles.count}>
             {count}
-            {/* Without this the badge reads as a bare "3". */}
             <Typography as="span" srOnly>
               {' '}
               saved

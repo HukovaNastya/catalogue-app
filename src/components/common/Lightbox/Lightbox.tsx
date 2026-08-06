@@ -22,8 +22,6 @@ export function Lightbox({
 }: LightboxProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  // showModal() (not the `open` attribute) is what gives us the top layer,
-  // the focus trap and Esc-to-close for free.
   useEffect(() => {
     const dialog = dialogRef.current;
     if (dialog && !dialog.open) dialog.showModal();
@@ -33,7 +31,6 @@ export function Lightbox({
   const safeIndex = total > 0 ? wrapIndex(index, total) : 0;
   const current = images[safeIndex];
 
-  // Warm the neighbours so arrowing through doesn't flash empty.
   useEffect(() => {
     if (total < 2) return;
     for (const step of [-1, 1]) {
@@ -52,7 +49,6 @@ export function Lightbox({
       ref={dialogRef}
       className={styles.dialog}
       aria-label={`${breedName} photos`}
-      // Fires for Esc and for close() alike, so every exit funnels through here.
       onClose={onClose}
       onKeyDown={(event) => {
         if (total < 2) return;
@@ -65,7 +61,6 @@ export function Lightbox({
           go(1);
         }
       }}
-      // The dialog box itself is the backdrop area; the figure sits on top.
       onClick={(event) => {
         if (event.target === dialogRef.current) close();
       }}

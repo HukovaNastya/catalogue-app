@@ -3,8 +3,6 @@
   text-decoration: none;
 }
 
-/* Stretches the link over the whole card, so the card is clickable without
-   nesting the favourite button inside an <a>. */
 .link::after {
   content: '';
   position: absolute;
@@ -12,8 +10,6 @@
   border-radius: 8px;
 }
 
-/* The ring belongs on the stretched pseudo-element, not the inline anchor, so
-   the global focus ring is cancelled on the link itself. */
 .link:focus-visible {
   outline: none;
   box-shadow: none;
@@ -43,7 +39,6 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  /* Above the stretched link, so the heart stays clickable. */
   z-index: 1;
 }
 
@@ -73,7 +68,6 @@
   gap: 8px;
 }
 
-/* Data, not action: brand-tint only, never solid --brand. */
 .rating {
   padding: 2px 8px;
   border: 1px solid var(--brand-tint-strong);

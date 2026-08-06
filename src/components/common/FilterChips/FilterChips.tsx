@@ -10,8 +10,6 @@ interface FilterChipsProps {
 }
 
 export function FilterChips({ filters, onClear }: FilterChipsProps) {
-  // `q` is left out: the header search box carries its own clear button, so a
-  // chip for it would be a second control for the same thing.
   const keys = activeFilterKeys(filters).filter((key) => key !== 'q');
 
   if (keys.length === 0) return null;

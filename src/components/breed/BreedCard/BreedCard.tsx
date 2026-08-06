@@ -13,8 +13,6 @@ interface BreedCardProps {
 
 export function BreedCard({ breed }: BreedCardProps) {
   const imageUrl = getImageUrl(breed);
-  // getImageUrl guesses a .jpg URL from reference_image_id, which 404s for
-  // some breeds — so a present URL is not a present photo.
   const [failed, setFailed] = useState(false);
 
   return (

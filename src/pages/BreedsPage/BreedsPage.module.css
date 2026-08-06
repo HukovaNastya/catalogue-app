@@ -41,8 +41,6 @@
   white-space: nowrap;
 }
 
-/* Warm neutral rather than --brand-tint: a tinted pill here would read as
-   another filter chip, and this one is not removable. */
 .bar .clearFilters {
   padding: 4px 10px;
   border-radius: var(--radius-sm);
@@ -60,7 +58,6 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  /* Pushes sort to the right of the chips, as in the wireframe. */
   margin-left: auto;
   color: var(--text-muted);
   font-size: 13px;
@@ -73,8 +70,6 @@
   font-size: 13px;
 }
 
-/* Phase 2 replaces this with a bottom sheet; until then the panel stacks
-   above the results rather than eating half a 375px screen. */
 @media (max-width: 768px) {
   .layout {
     display: flex;

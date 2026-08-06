@@ -27,12 +27,6 @@ export async function getBreedById(breedId: string): Promise<Breed> {
   return response.json();
 }
 
-/**
- * `/breeds/{id}` only carries a single reference image, so the gallery has to
- * come from image search. `order=ASC` rather than the default RANDOM: the
- * gallery addresses photos by index, and a reshuffle on refetch would swap the
- * photo out from under an open lightbox.
- */
 export async function getBreedImages(breedId: string): Promise<CatImage[]> {
   const params = new URLSearchParams({
     breed_ids: breedId,

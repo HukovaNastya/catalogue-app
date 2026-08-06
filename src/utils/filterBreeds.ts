@@ -6,9 +6,7 @@ export type FilterKey = 'q' | 'kids' | 'grooming' | 'traits' | 'origin';
 
 export interface BreedFilters {
   q: string;
-  /** Minimum child_friendly rating. 0 means "any". */
   kids: number;
-  /** Raw grooming levels to keep, e.g. [1, 2] for the "Low" bucket. */
   grooming: number[];
   traits: Trait[];
   origin: string;
@@ -17,8 +15,6 @@ export interface BreedFilters {
 
 export const KIDS_OPTIONS = [3, 4, 5] as const;
 
-// The checkboxes are buckets, but the URL carries the raw levels they expand
-// to — so `grooming=1,2` reads as "grooming ≤2", which is what the chip says.
 export const GROOMING_BUCKETS = [
   { id: 'low', label: 'Low', levels: [1, 2] },
   { id: 'medium', label: 'Medium', levels: [3] },
@@ -44,8 +40,6 @@ export const EMPTY_FILTERS: BreedFilters = {
   sort: 'name',
 };
 
-// Kept separate rather than fused into one .filter() chain: subtracting a
-// single predicate is what lets findBlockingFilters explain an empty result.
 const PREDICATES: Record<
   FilterKey,
   (breed: Breed, filters: BreedFilters) => boolean
@@ -59,10 +53,8 @@ const PREDICATES: Record<
     );
   },
   kids: (breed, { kids }) => kids === 0 || breed.child_friendly >= kids,
-  // Levels of one attribute, so any match passes.
   grooming: (breed, { grooming }) =>
     grooming.length === 0 || grooming.includes(breed.grooming),
-  // Independent flags, so every ticked trait has to hold.
   traits: (breed, { traits }) => traits.every((trait) => breed[trait] === 1),
   origin: (breed, { origin }) => origin === '' || breed.origin === origin,
 };
@@ -96,12 +88,6 @@ export function applyBreedFilters(
   return sortBreeds(matches, filters.sort);
 }
 
-/**
- * Which filters are responsible for an empty result — each one dropped on its
- * own, keeping the search term fixed. An empty array means no single filter is
- * to blame: either only a combination excludes everything, or the search term
- * itself matches nothing (check `matchesQueryOnly` to tell those apart).
- */
 export function findBlockingFilters(
   breeds: Breed[],
   filters: BreedFilters,
@@ -115,7 +101,6 @@ export function findBlockingFilters(
     );
 }
 
-/** Does anything match the search term once every other filter is dropped? */
 export function matchesQueryOnly(
   breeds: Breed[],
   filters: BreedFilters,

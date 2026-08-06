@@ -42,8 +42,6 @@
   object-fit: cover;
 }
 
-/* Scoped so it outranks PhotoFallback's own font-size whatever order the two
-   CSS modules land in. font-size is what sizes the icon. */
 .thumb .thumbFallback {
   font-size: 20px;
 }

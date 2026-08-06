@@ -10,9 +10,6 @@
   gap: 16px;
 }
 
-/* Scoped to `.head` so it outranks Typography's `section` margin whatever
-   order the two CSS modules land in. The row is baseline-aligned flex, so the
-   heading must not add space below it. */
 .head .heading {
   margin: 0;
 }
@@ -63,9 +60,6 @@
   composes: thumb;
 }
 
-/* Scoped to `.chip` so it outranks PhotoFallback's own box rules whatever
-   order the two CSS modules land in — same reason as `.head .heading` above.
-   font-size is what sizes the icon. */
 .chip .thumbFallback {
   display: flex;
   width: 36px;

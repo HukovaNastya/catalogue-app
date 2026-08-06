@@ -30,7 +30,6 @@
   padding: 8px 32px 8px 34px;
 }
 
-/* Colour, hover and reset come from Button's `ghost`. */
 .clear {
   position: absolute;
   right: 4px;

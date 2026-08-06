@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-/**
- * Debounces a one-argument callback and hands back a `cancel` so imperative
- * actions (clear, submit) can drop a pending call instead of racing it.
- */
 export function useDebouncedCallback<A>(
   callback: (arg: A) => void,
   delay = 250,

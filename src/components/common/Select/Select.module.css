@@ -10,9 +10,6 @@
   font: inherit;
   font-size: 15px;
   cursor: pointer;
-
-  /* Caret, so removing the native one does not leave the control looking
-     like a read-only field. */
   background-image: linear-gradient(45deg, transparent 50%, currentcolor 50%),
     linear-gradient(135deg, currentcolor 50%, transparent 50%);
   background-position:

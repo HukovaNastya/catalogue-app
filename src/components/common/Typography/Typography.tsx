@@ -2,8 +2,6 @@ import type { ComponentPropsWithoutRef, ElementType, Ref } from 'react';
 import { clsx } from 'clsx';
 import styles from './Typography.module.css';
 
-// Text-level tags only: they share one attribute surface, so the component can
-// stay non-generic. For a link, nest one — as BreedCard already does.
 type TypographyTag =
   | 'h1'
   | 'h2'

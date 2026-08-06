@@ -11,7 +11,6 @@ export function CatalogueIcon(props: SVGProps<SVGSVGElement>) {
       aria-hidden="true"
       {...props}
     >
-      {/* Ears sit on the open ring below, drawn as filled wedges. */}
       <path
         d="M20.97 25.38 L20.0 11.5 Q21.4 7.2 24.4 10.3 L29.57 20.21 Z"
         strokeWidth="1.6"

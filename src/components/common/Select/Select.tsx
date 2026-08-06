@@ -3,7 +3,6 @@ import { clsx } from 'clsx';
 import styles from './Select.module.css';
 
 interface SelectProps extends ComponentPropsWithRef<'select'> {
-  // Same convenience as Input: most callers only want the value.
   onValueChange?: (value: string) => void;
 }
 

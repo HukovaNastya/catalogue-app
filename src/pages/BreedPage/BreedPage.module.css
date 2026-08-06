@@ -106,8 +106,6 @@
   overflow: hidden;
 }
 
-/* --rating-filled, not --brand: ratings are data and must not read as
-   something you can click. */
 .barFill {
   display: block;
   height: 100%;

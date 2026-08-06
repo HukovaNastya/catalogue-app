@@ -17,7 +17,6 @@
   font-size: 15px;
 }
 
-/* Solid brand: the grammar reserves it for action. */
 :where(.primary) {
   border-color: var(--brand);
   background: var(--brand);
