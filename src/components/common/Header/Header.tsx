@@ -24,14 +24,14 @@ export function Header() {
       >
         <span aria-hidden="true">♡</span> Favourites
         {count > 0 && (
-          <span className={styles.count}>
+          <div className={styles.count}>
             {count}
             {/* Without this the badge reads as a bare "3". */}
             <Typography as="span" srOnly>
               {' '}
               saved
             </Typography>
-          </span>
+          </div>
         )}
       </Link>
     </header>

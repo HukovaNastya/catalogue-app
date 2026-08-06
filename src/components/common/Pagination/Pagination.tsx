@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { getPageWindow, getTotalPages } from '../../../utils/pagination.ts';
 import { Button } from '../Button/Button.tsx';
+import { Typography } from '../Typography/Typography.tsx';
 import styles from './Pagination.module.css';
 
 interface PaginationProps {
@@ -68,9 +69,9 @@ export function Pagination({
       </ul>
 
       {showRange && (
-        <p className={styles.range}>
+        <Typography variant="small" tone="muted">
           Showing {firstItem}–{lastItem} of {totalCount}
-        </p>
+        </Typography>
       )}
     </nav>
   );

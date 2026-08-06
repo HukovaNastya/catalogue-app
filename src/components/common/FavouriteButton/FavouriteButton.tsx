@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { useFavourites } from '../../../hooks/useFavourites.ts';
 import { Button } from '../Button/Button.tsx';
+import { Typography } from '../Typography/Typography.tsx';
 import styles from './FavouriteButton.module.css';
 
 interface FavouriteButtonProps {
@@ -31,10 +32,19 @@ export function FavouriteButton({
       }
       onClick={() => toggle(breedId)}
     >
-      <span className={styles.icon} aria-hidden="true">
+      <Typography
+        as="span"
+        variant="body"
+        className={styles.icon}
+        aria-hidden="true"
+      >
         {isSaved ? '♥' : '♡'}
-      </span>
-      {withLabel && <span>{isSaved ? 'Saved' : 'Save'}</span>}
+      </Typography>
+      {withLabel && (
+        <Typography as="span" variant="body">
+          {isSaved ? 'Saved' : 'Save'}
+        </Typography>
+      )}
     </Button>
   );
 }

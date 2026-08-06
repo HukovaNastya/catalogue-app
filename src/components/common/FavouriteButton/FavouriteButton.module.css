@@ -23,7 +23,7 @@
   color: var(--text-h);
 }
 
-.icon {
+.button .icon {
   font-size: 18px;
   color: var(--accent);
 }
