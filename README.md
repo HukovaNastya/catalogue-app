@@ -9,7 +9,7 @@ shared or bookmarked. Breeds can be saved to a favourites list held in `localSto
 
 | Environmental variable | Value                                                                                              |
 |------------------------|----------------------------------------------------------------------------------------------------|
-| VITE_BASE_URL          | https://api.thecatapi.com/v1                                                                        |
+| VITE_API_URL           | https://api.thecatapi.com/v1                                                                        |
 | VITE_API_KEY           | TheCatAPI key — request a free one at [thecatapi.com](https://thecatapi.com/signup). Sent as the `x-api-key` header; omit it and the API answers with stricter rate limits. |
 
 > `.env` is ignored by git — never commit your API key. Share new variables through this table instead.
