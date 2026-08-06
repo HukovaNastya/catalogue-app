@@ -20,9 +20,10 @@
   min-width: 40px;
 }
 
+/* Current page is a state, so it takes solid brand. */
 .button[aria-current='page'] {
-  border-color: var(--accent-border);
-  background: var(--accent-bg);
-  color: var(--text-h);
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--n-0);
   font-weight: 500;
 }

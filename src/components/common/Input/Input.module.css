@@ -2,21 +2,16 @@
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  color: var(--text-h);
+  color: var(--text);
   font: inherit;
   font-size: 15px;
-}
-
-:where(.input):focus-visible {
-  outline: 2px solid var(--accent-border);
-  outline-offset: 1px;
 }
 
 :where(.field) {
   padding: 8px 12px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
 }
 
 :where(.bare) {

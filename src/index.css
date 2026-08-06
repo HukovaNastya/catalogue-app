@@ -1,26 +1,62 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --brand: #3b4881;
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* Catalogue — design tokens and base styles.
+   Light mode only. A dark theme is a value swap in the token block below,
+   not a refactor: components read only the role layer. */
 
+:root {
+  /* ---- Brand: slate indigo ---------------------------------- */
+  --brand-tint: #edeff7;
+  --brand-tint-strong: #cbd2e8;
+  --brand-mid: #5566a8;
+  --brand: #3b4881;
+  --brand-hover: #313c6e;
+  --brand-ink: #232c54;
+
+  /* ---- Neutrals: warm --------------------------------------- */
+  --n-0: #ffffff;
+  --n-25: #fbfaf8;
+  --n-50: #f4f2ed;
+  --n-100: #e4e1d9;
+  --n-200: #c2beb3;
+  --n-400: #807c72;
+  --n-600: #4e4b45;
+  --n-900: #1c1b19;
+
+  /* ---- Semantic ---------------------------------------------- */
+  --danger-tint: #fcebeb;
+  --danger: #a32d2d;
+  --warning: #dfa13a;
+  --success: #3b6d11;
+
+  /* ---- Roles: the only layer components should read ---------- */
+  --page: var(--n-25);
+  --surface: var(--n-0);
+  --border: var(--n-100);
+  --border-hover: var(--n-200);
+  --text: var(--n-900);
+  --text-muted: var(--n-600);
+  --text-subtle: var(--n-400);
+
+  --rating-filled: var(--brand-mid);
+  --rating-empty: var(--brand-tint);
+
+  --focus-ring: 0 0 0 3px var(--brand-tint-strong);
+
+  /* ---- Geometry ---------------------------------------------- */
+  --radius-xs: 2px;
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+
+  /* ---- Type -------------------------------------------------- */
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
-  background: var(--bg);
+  background: var(--page);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,25 +67,29 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    /* #3b4881 is near-invisible on the dark bg, so lift it. */
-    --brand: #8b96d9;
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* Colour grammar
+   One hue, two weights, warm neutrals.
+   --brand      solid indigo. Interactive or stateful only:
+                buttons, active chips, current page, links.
+   --brand-mid  lighter indigo. Data only: rating segments.
+                Never clickable.
+   Data reads quieter than action without a second hue, which
+   leaves --warning free for genuine warning states.
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+   Cards use --surface against a --page background. That two-step
+   separation is what makes the grid read without shadows. */
+
+*:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -73,7 +113,7 @@ h1,
 h2 {
   font-family: var(--heading);
   font-weight: 500;
-  color: var(--text-h);
+  color: var(--text);
 }
 
 h1 {
@@ -102,13 +142,13 @@ code,
 .counter {
   font-family: var(--mono);
   display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+  border-radius: var(--radius-xs);
+  color: var(--text);
 }
 
 code {
   font-size: 15px;
   line-height: 135%;
   padding: 4px 8px;
-  background: var(--code-bg);
+  background: var(--n-50);
 }

@@ -12,13 +12,15 @@
   border-radius: 8px;
 }
 
+/* The ring belongs on the stretched pseudo-element, not the inline anchor, so
+   the global focus ring is cancelled on the link itself. */
 .link:focus-visible {
   outline: none;
+  box-shadow: none;
 }
 
 .link:focus-visible::after {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  box-shadow: var(--focus-ring);
 }
 
 .card {
@@ -28,12 +30,13 @@
   gap: 8px;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
+  background: var(--surface);
   text-align: left;
 }
 
 .card:hover {
-  border-color: var(--accent-border);
+  border-color: var(--border-hover);
 }
 
 .favourite {
@@ -46,9 +49,9 @@
 
 .imageWrapper {
   aspect-ratio: 4 / 3;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  background: var(--code-bg);
+  background: var(--n-100);
 }
 
 .image {
@@ -62,7 +65,7 @@
 .origin {
   margin: 0;
   font-size: 14px;
-  color: var(--text);
+  color: var(--text-subtle);
 }
 
 .ratings {
@@ -70,9 +73,11 @@
   gap: 8px;
 }
 
+/* Data, not action: brand-tint only, never solid --brand. */
 .rating {
   padding: 2px 8px;
-  border: 1px solid var(--accent-border);
+  border: 1px solid var(--brand-tint-strong);
   border-radius: 999px;
-  background: var(--accent-bg);
+  background: var(--brand-tint);
+  color: var(--brand-ink);
 }

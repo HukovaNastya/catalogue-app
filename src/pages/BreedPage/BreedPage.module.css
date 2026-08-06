@@ -7,7 +7,7 @@
 .back {
   display: inline-block;
   margin-bottom: 16px;
-  color: var(--text);
+  color: var(--text-muted);
   font-size: 15px;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .description {
-  color: var(--text-h);
+  color: var(--text);
 }
 
 .temperament {
@@ -53,9 +53,10 @@
 
 .trait {
   padding: 2px 10px;
-  border: 1px solid var(--accent-border);
+  border: 1px solid var(--brand-tint-strong);
   border-radius: 999px;
-  background: var(--accent-bg);
+  background: var(--brand-tint);
+  color: var(--brand-ink);
   font-size: 13px;
 }
 
@@ -93,7 +94,7 @@
   gap: 8px;
   margin: 0;
   font-size: 15px;
-  color: var(--text-h);
+  color: var(--text);
 }
 
 .bar {
@@ -101,15 +102,17 @@
   width: 120px;
   height: 8px;
   border-radius: 999px;
-  background: var(--code-bg);
+  background: var(--rating-empty);
   overflow: hidden;
 }
 
+/* --rating-filled, not --brand: ratings are data and must not read as
+   something you can click. */
 .barFill {
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: var(--accent);
+  background: var(--rating-filled);
 }
 
 .footnote {

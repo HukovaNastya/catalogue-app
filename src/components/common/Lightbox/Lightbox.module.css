@@ -71,9 +71,9 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* The brand-tint ring disappears against the backdrop, so this one goes white. */
 .control:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
+  box-shadow: 0 0 0 3px #fff;
 }
 
 .close {

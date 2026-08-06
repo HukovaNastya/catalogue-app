@@ -4,9 +4,9 @@
   width: 100%;
   padding: 8px 28px 8px 10px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg);
-  color: var(--text-h);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
   font: inherit;
   font-size: 15px;
   cursor: pointer;
@@ -22,9 +22,4 @@
     5px 5px,
     5px 5px;
   background-repeat: no-repeat;
-}
-
-:where(.select):focus-visible {
-  outline: 2px solid var(--accent-border);
-  outline-offset: 1px;
 }

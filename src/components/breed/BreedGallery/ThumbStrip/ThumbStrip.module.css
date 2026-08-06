@@ -13,23 +13,18 @@
   width: 100%;
   aspect-ratio: 1;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--code-bg);
+  border-radius: var(--radius-sm);
+  background: var(--n-100);
   overflow: hidden;
 }
 
 .thumb:hover {
-  border-color: var(--accent-border);
-}
-
-.thumb:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  border-color: var(--border-hover);
 }
 
 .thumb[aria-current='true'] {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
+  border-color: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand);
 }
 
 .thumb:not([aria-current='true']) .thumbImage {
@@ -66,6 +61,6 @@
 
 .skeleton {
   aspect-ratio: 1;
-  border-radius: 6px;
-  background: var(--code-bg);
+  border-radius: var(--radius-sm);
+  background: var(--n-50);
 }

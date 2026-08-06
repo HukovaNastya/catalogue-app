@@ -22,7 +22,7 @@
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  color: var(--text);
+  color: var(--text-subtle);
   pointer-events: none;
 }
 
