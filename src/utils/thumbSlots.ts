@@ -1,4 +1,4 @@
-import type { CatImage } from '../../services/cat/cat.model.ts';
+import type { CatImage } from '../services/cat/cat.model.ts';
 
 /** Tiles in the strip. The last one doubles as the "+N" overflow tile. */
 export const THUMB_SLOTS = 4;

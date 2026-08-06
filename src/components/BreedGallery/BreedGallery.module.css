@@ -6,7 +6,6 @@
   max-width: 100%;
 }
 
-/* `bare` strips the chrome; zoom-in overrides its inherited pointer cursor. */
 .imageButton {
   display: block;
   width: 100%;
@@ -40,86 +39,7 @@
   composes: imageFallback;
 }
 
-/* Scoped so it outranks PhotoFallback's own font-size whatever order the two
-   CSS modules land in. font-size is what sizes the icon. */
 .media .imageFallback {
   font-size: 48px;
 }
 
-.thumbs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.thumb {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--code-bg);
-  overflow: hidden;
-}
-
-.thumb:hover {
-  border-color: var(--accent-border);
-}
-
-.thumb:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.thumb[aria-current='true'] {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
-}
-
-.thumb:not([aria-current='true']) .thumbImage {
-  opacity: 0.75;
-}
-
-.thumb:hover .thumbImage {
-  opacity: 1;
-}
-
-.thumbImage {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Scoped for the same reason as .media .imageFallback above. */
-.thumb .thumbFallback {
-  font-size: 20px;
-}
-
-.more {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.55);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.hint {
-  margin: 0;
-  color: var(--text-h);
-  font-size: 13px;
-}
-
-.skeleton {
-  aspect-ratio: 1;
-  border-radius: 6px;
-  background: var(--code-bg);
-}
