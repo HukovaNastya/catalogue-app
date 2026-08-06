@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tools.tsbuildinfo",
     "target": "ES2023",
+    /* DOM for the specs — Playwright's page.evaluate runs in the browser. */
     "lib": ["ES2023", "DOM"],
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -15,5 +17,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["e2e", "playwright.config.ts"]
+  /* Everything that runs in node rather than in the bundle: the two configs
+     and the Playwright specs. Kept apart from the app so `types: ["node"]`
+     never leaks into src. */
+  "include": ["vite.config.ts", "playwright.config.ts", "e2e"]
 }
