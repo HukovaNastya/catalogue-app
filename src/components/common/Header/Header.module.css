@@ -8,12 +8,21 @@
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--heading);
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.24px;
   color: var(--text-h);
   text-decoration: none;
+}
+
+.brandMark {
+  flex: none;
+  font-size: 32px;
+  color: var(--indigo);
 }
 
 .favourites {

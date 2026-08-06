@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router';
+import { CatalogueIcon } from '../../../assets/icons/CatalogueIcon.tsx';
 import { SearchInput } from '../SearchInput/SearchInput.tsx';
 import { Typography } from '../Typography/Typography.tsx';
 import { useBreedsParams } from '../../../hooks/useBreedsParams.ts';
@@ -12,7 +13,8 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Link className={styles.brand} to="/breeds" search={{ q: '', page: 1 }}>
-        Breeds
+        <CatalogueIcon className={styles.brandMark} />
+        Catalogue
       </Link>
 
       <SearchInput value={q} onChange={setQuery} onClear={clearQuery} />
