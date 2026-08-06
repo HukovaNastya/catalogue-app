@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import type { Breed } from '../../services/cat/cat.model.ts';
 import { FavouriteButton } from '../FavouriteButton/FavouriteButton.tsx';
-import { Typography } from '../Typography/Typography.tsx';
+import { Typography } from '../common/Typography/Typography.tsx';
 import styles from './BreedCard.module.css';
 import {getImageUrl} from "../../utils/helper.ts";
 

@@ -1,6 +1,6 @@
-import { Button } from '../Button/Button.tsx';
-import { Select } from '../Select/Select.tsx';
-import { Typography } from '../Typography/Typography.tsx';
+import { Button } from '../common/Button/Button.tsx';
+import { Select } from '../common/Select/Select.tsx';
+import { Typography } from '../common/Typography/Typography.tsx';
 import {
   GROOMING_BUCKETS,
   KIDS_OPTIONS,

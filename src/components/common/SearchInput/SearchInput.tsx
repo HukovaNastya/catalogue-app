@@ -1,6 +1,6 @@
 import { useId, useState } from 'react';
-import { useDebouncedCallback } from '../../hooks/useDebouncedCallback.ts';
-import { SearchIcon } from '../../assets/icons/SearchIcon.tsx';
+import { useDebouncedCallback } from '../../../hooks/useDebouncedCallback.ts';
+import { SearchIcon } from '../../../assets/icons/SearchIcon.tsx';
 import { Button } from '../Button/Button.tsx';
 import { Input } from '../Input/Input.tsx';
 import styles from './SearchInput.module.css';

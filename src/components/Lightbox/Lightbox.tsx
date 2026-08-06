@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { clsx } from 'clsx';
 import type { CatImage } from '../../services/cat/cat.model.ts';
 import { wrapIndex } from '../../utils/helper.ts';
-import { Button } from '../Button/Button.tsx';
+import { Button } from '../common/Button/Button.tsx';
 import styles from './Lightbox.module.css';
 
 interface LightboxProps {

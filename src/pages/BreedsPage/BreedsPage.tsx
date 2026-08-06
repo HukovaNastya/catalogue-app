@@ -5,17 +5,11 @@ import { useBreedFilters } from '../../hooks/useBreedFilters.ts'
 import { BreedList } from '../../components/BreedList/BreedList.tsx'
 import { BreedFilters } from '../../components/BreedFilters/BreedFilters.tsx'
 import { FilterChips } from '../../components/FilterChips/FilterChips.tsx'
-import { Button } from '../../components/Button/Button.tsx'
-import { Pagination } from '../../components/Pagination/Pagination.tsx'
-import { Select } from '../../components/Select/Select.tsx'
-import { Typography } from '../../components/Typography/Typography.tsx'
-import {
-  applyBreedFilters,
-  filterLabel,
-  findBlockingFilters,
-  matchesQueryOnly,
-  SORT_OPTIONS,
-} from '../../utils/filterBreeds.ts'
+import { EmptyState } from '../../components/EmptyState/EmptyState.tsx'
+import { Pagination } from '../../components/common/Pagination/Pagination.tsx'
+import { Select } from '../../components/common/Select/Select.tsx'
+import { Typography } from '../../components/common/Typography/Typography.tsx'
+import { applyBreedFilters, SORT_OPTIONS } from '../../utils/filterBreeds.ts'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
 import styles from './BreedsPage.module.css'
 
@@ -35,16 +29,6 @@ export function BreedsPage() {
     () => [...new Set((breeds ?? []).map((breed) => breed.origin))].sort(),
     [breeds],
   )
-
-  // Only worth computing when there is an empty result to explain.
-  const explanation = useMemo(() => {
-    if (matches.length > 0 || !breeds) return null
-
-    return {
-      blocking: findBlockingFilters(breeds, filters),
-      queryMatches: matchesQueryOnly(breeds, filters),
-    }
-  }, [matches, breeds, filters])
 
   const totalCount = matches.length
   const currentPage = clampPage(page, getTotalPages(totalCount, PER_PAGE))
@@ -103,16 +87,13 @@ export function BreedsPage() {
             </div>
 
             {totalCount === 0 ? (
-              <div className={styles.empty}>
-                <EmptyState
-                  filters={filters}
-                  blocking={explanation?.blocking ?? []}
-                  queryMatches={explanation?.queryMatches ?? false}
-                  onClearFilter={clearFilter}
-                  onClearFilters={clearFilters}
-                  onClearQuery={() => setQuery('')}
-                />
-              </div>
+              <EmptyState
+                breeds={breeds}
+                filters={filters}
+                onClearFilter={clearFilter}
+                onClearFilters={clearFilters}
+                onClearQuery={() => setQuery('')}
+              />
             ) : (
               <BreedList breeds={visibleBreeds} />
             )}
@@ -128,71 +109,5 @@ export function BreedsPage() {
         )}
       </div>
     </div>
-  )
-}
-
-interface EmptyStateProps {
-  filters: ReturnType<typeof useBreedFilters>['filters']
-  blocking: ReturnType<typeof findBlockingFilters>
-  queryMatches: boolean
-  onClearFilter: (key: ReturnType<typeof findBlockingFilters>[number]) => void
-  onClearFilters: () => void
-  onClearQuery: () => void
-}
-
-function EmptyState({
-  filters,
-  blocking,
-  queryMatches,
-  onClearFilter,
-  onClearFilters,
-  onClearQuery,
-}: EmptyStateProps) {
-  // A named filter is only honest when something actually matches the search
-  // term — otherwise the term itself is what found nothing.
-  if (blocking.length > 0 && (filters.q === '' || queryMatches)) {
-    const named = blocking.map((key) => filterLabel(filters, key)).join(' or ')
-
-    return (
-      <>
-        <p>
-          {filters.q
-            ? `“${filters.q}” exists, but it is filtered out by ${named}.`
-            : `No breeds match ${named}.`}
-        </p>
-        <div className={styles.emptyActions}>
-          {blocking.map((key) => (
-            <Button
-              key={key}
-              variant="primary"
-              onClick={() => onClearFilter(key)}
-            >
-              Clear {filterLabel(filters, key)}
-            </Button>
-          ))}
-        </div>
-      </>
-    )
-  }
-
-  if (filters.q && !queryMatches) {
-    return (
-      <>
-        <p>No breeds match “{filters.q}”.</p>
-        <Button variant="primary" onClick={onClearQuery}>
-          Clear search
-        </Button>
-      </>
-    )
-  }
-
-  // Nothing single-handedly to blame: only the combination excludes everything.
-  return (
-    <>
-      <p>No breeds match these filters.</p>
-      <Button variant="primary" onClick={onClearFilters}>
-        Clear filters
-      </Button>
-    </>
   )
 }

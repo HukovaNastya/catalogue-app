@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CatImage } from '../../services/cat/cat.model.ts';
 import { wrapIndex } from '../../utils/helper.ts';
-import { Button } from '../Button/Button.tsx';
+import { Button } from '../common/Button/Button.tsx';
 import { Lightbox } from '../Lightbox/Lightbox.tsx';
 import styles from './BreedGallery.module.css';
 

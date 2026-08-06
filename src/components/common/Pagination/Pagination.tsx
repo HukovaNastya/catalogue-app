@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { getPageWindow, getTotalPages } from '../../utils/pagination';
+import { getPageWindow, getTotalPages } from '../../../utils/pagination.ts';
 import { Button } from '../Button/Button.tsx';
 import styles from './Pagination.module.css';
 

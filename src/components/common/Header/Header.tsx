@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router';
 import { SearchInput } from '../SearchInput/SearchInput.tsx';
 import { Typography } from '../Typography/Typography.tsx';
-import { useBreedsParams } from '../../hooks/useBreedsParams.ts';
-import { useFavourites } from '../../hooks/useFavourites.ts';
+import { useBreedsParams } from '../../../hooks/useBreedsParams.ts';
+import { useFavourites } from '../../../hooks/useFavourites.ts';
 import styles from './Header.module.css';
 
 export function Header() {

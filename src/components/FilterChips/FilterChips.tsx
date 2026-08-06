@@ -1,4 +1,4 @@
-import { Button } from '../Button/Button.tsx';
+import { Button } from '../common/Button/Button.tsx';
 import { activeFilterKeys, filterLabel } from '../../utils/filterBreeds.ts';
 import type { BreedFilters, FilterKey } from '../../utils/filterBreeds.ts';
 import styles from './FilterChips.module.css';
