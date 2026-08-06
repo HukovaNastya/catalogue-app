@@ -1,5 +1,5 @@
-import type { Breed } from '../../services/cat/cat.model.ts';
-import type { BreedFilters, FilterKey } from '../../utils/filterBreeds.ts';
+import type { Breed } from '../../../services/cat/cat.model.ts';
+import type { BreedFilters, FilterKey } from '../../../utils/filterBreeds.ts';
 
 export interface ClearHandlers {
   onClearFilter: (key: FilterKey) => void;

@@ -3,7 +3,7 @@ import { Explanation } from './Explanation/Explanation.tsx';
 import {
   findBlockingFilters,
   matchesQueryOnly,
-} from '../../utils/filterBreeds.ts';
+} from '../../../utils/filterBreeds.ts';
 import type { EmptyStateProps } from './types.ts';
 import styles from './EmptyState.module.css';
 

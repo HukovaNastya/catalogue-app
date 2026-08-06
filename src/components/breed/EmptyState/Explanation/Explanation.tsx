@@ -1,5 +1,5 @@
-import { Button } from '../../common/Button/Button.tsx';
-import { filterLabel } from '../../../utils/filterBreeds.ts';
+import { Button } from '../../../common/Button/Button.tsx';
+import { filterLabel } from '../../../../utils/filterBreeds.ts';
 import type { ExplanationProps } from '../types.ts';
 import styles from './Explanation.module.css';
 

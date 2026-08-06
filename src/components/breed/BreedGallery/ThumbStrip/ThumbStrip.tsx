@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { wrapIndex } from '../../../utils/helper.ts';
-import { THUMB_SLOTS } from '../../../utils/thumbSlots.ts';
-import type { ThumbSlot } from '../../../utils/thumbSlots.ts';
-import { Button } from '../../common/Button/Button.tsx';
-import { PhotoFallback } from '../../common/PhotoFallback/PhotoFallback.tsx';
+import { wrapIndex } from '../../../../utils/helper.ts';
+import type { ThumbSlot } from '../../../../utils/thumbSlots.ts';
+import { Button } from '../../../common/Button/Button.tsx';
+import { PhotoFallback } from '../../../common/PhotoFallback/PhotoFallback.tsx';
+import { Typography } from '../../../common/Typography/Typography.tsx';
 import styles from './ThumbStrip.module.css';
 
 interface ThumbStripProps {
@@ -11,19 +11,12 @@ interface ThumbStripProps {
   activeIndex: number;
   total: number;
   failedUrls: ReadonlySet<string>;
-  /** False while the lightbox is open — it runs its own arrows. */
   arrowsEnabled: boolean;
   onFail: (url: string) => void;
-  /** Move the selection, from a tile or from an arrow key. */
   onStep: (index: number) => void;
-  /** Open the lightbox on a photo the strip cannot show. */
   onOpen: (index: number) => void;
 }
 
-/**
- * The tile strip and its counter. Owns keyboard navigation, because it owns
- * the focus that navigation moves.
- */
 export function ThumbStrip({
   slots,
   activeIndex,
@@ -111,32 +104,27 @@ export function ThumbStrip({
                 />
               )}
               {slot.overflowCount > 0 && (
-                <span className={styles.more} aria-hidden="true">
+                <Typography
+                  as="span"
+                  variant="body"
+                  className={styles.more}
+                  aria-hidden="true"
+                >
                   +{slot.overflowCount}
-                </span>
+                </Typography>
               )}
             </Button>
           </li>
         ))}
       </ul>
-      <p className={styles.hint}>
-        {/* Live, because the big photo's alt changing announces nothing. */}
-        <span aria-live="polite">
+      <Typography variant="small" tone="strong">
+        <Typography as="span" variant="small" aria-live="polite">
           {activeIndex + 1} / {total}
-        </span>
-        <span aria-hidden="true"> · ← → to move</span>
-      </p>
+        </Typography>
+        <Typography as="span" variant="small" aria-hidden="true">
+          {' · ← → to move'}
+        </Typography>
+      </Typography>
     </>
-  );
-}
-
-/** Holds the strip's space while the photos are still loading. */
-export function ThumbStripSkeleton() {
-  return (
-    <ul className={styles.thumbs} aria-hidden="true">
-      {Array.from({ length: THUMB_SLOTS }, (_, index) => (
-        <li key={index} className={styles.skeleton} />
-      ))}
-    </ul>
   );
 }

@@ -28,7 +28,6 @@
   border-radius: 8px;
 }
 
-/* The same box as .image, for a photo that is missing or failed to load. */
 .imageFallback {
   aspect-ratio: 4 / 3;
   border-radius: 8px;

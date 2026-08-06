@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import type { CatImage } from '../../services/cat/cat.model.ts';
-import { wrapIndex } from '../../utils/helper.ts';
-import { Button } from '../common/Button/Button.tsx';
-import { PhotoFallback } from '../common/PhotoFallback/PhotoFallback.tsx';
-import { Lightbox } from '../common/Lightbox/Lightbox.tsx';
-import { buildThumbSlots } from '../../utils/thumbSlots.ts';
-import { ThumbStrip, ThumbStripSkeleton } from './ThumbStrip/ThumbStrip.tsx';
+import type { CatImage } from '../../../services/cat/cat.model.ts';
+import { wrapIndex } from '../../../utils/helper.ts';
+import { Button } from '../../common/Button/Button.tsx';
+import { PhotoFallback } from '../../common/PhotoFallback/PhotoFallback.tsx';
+import { Lightbox } from '../../common/Lightbox/Lightbox.tsx';
+import { buildThumbSlots } from '../../../utils/thumbSlots.ts';
+import { ThumbStrip } from './ThumbStrip/ThumbStrip.tsx';
+import { ThumbStripSkeleton } from './ThumbStrip/ThumbStripSkeleton.tsx';
 import styles from './BreedGallery.module.css';
 
 interface BreedGalleryProps {

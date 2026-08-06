@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import type { Breed } from '../../services/cat/cat.model.ts';
-import { FavouriteButton } from '../FavouriteButton/FavouriteButton.tsx';
-import { Typography } from '../common/Typography/Typography.tsx';
-import { PhotoFallback } from '../common/PhotoFallback/PhotoFallback.tsx';
+import type { Breed } from '../../../services/cat/cat.model.ts';
+import { FavouriteButton } from '../../common/FavouriteButton/FavouriteButton.tsx';
+import { Typography } from '../../common/Typography/Typography.tsx';
+import { PhotoFallback } from '../../common/PhotoFallback/PhotoFallback.tsx';
 import styles from './BreedCard.module.css';
-import {getImageUrl} from "../../utils/helper.ts";
+import {getImageUrl} from "../../../utils/helper.ts";
 
 interface BreedCardProps {
   breed: Breed;

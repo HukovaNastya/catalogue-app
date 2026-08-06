@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import type { SimilarBreed } from '../../utils/similarBreeds.ts';
-import { getImageUrl } from '../../utils/helper.ts';
-import { PhotoFallback } from '../common/PhotoFallback/PhotoFallback.tsx';
-import { Typography } from '../common/Typography/Typography.tsx';
+import type { SimilarBreed } from '../../../utils/similarBreeds.ts';
+import { getImageUrl } from '../../../utils/helper.ts';
+import { PhotoFallback } from '../../common/PhotoFallback/PhotoFallback.tsx';
+import { Typography } from '../../common/Typography/Typography.tsx';
 import styles from './SimilarBreeds.module.css';
 
 type SimilarBreedChipProps = SimilarBreed;

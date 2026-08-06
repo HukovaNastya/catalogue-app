@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
-import { useFavourites } from '../../hooks/useFavourites.ts';
-import { Button } from '../common/Button/Button.tsx';
+import { useFavourites } from '../../../hooks/useFavourites.ts';
+import { Button } from '../Button/Button.tsx';
 import styles from './FavouriteButton.module.css';
 
 interface FavouriteButtonProps {

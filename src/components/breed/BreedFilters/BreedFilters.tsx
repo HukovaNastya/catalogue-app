@@ -1,12 +1,12 @@
-import { Button } from '../common/Button/Button.tsx';
-import { Select } from '../common/Select/Select.tsx';
-import { Typography } from '../common/Typography/Typography.tsx';
+import { Button } from '../../common/Button/Button.tsx';
+import { Select } from '../../common/Select/Select.tsx';
+import { Typography } from '../../common/Typography/Typography.tsx';
 import {
   GROOMING_BUCKETS,
   KIDS_OPTIONS,
   TRAIT_OPTIONS,
-} from '../../utils/filterBreeds.ts';
-import type { BreedFilters as Filters, Trait } from '../../utils/filterBreeds.ts';
+} from '../../../utils/filterBreeds.ts';
+import type { BreedFilters as Filters, Trait } from '../../../utils/filterBreeds.ts';
 import styles from './BreedFilters.module.css';
 
 interface BreedFiltersProps {

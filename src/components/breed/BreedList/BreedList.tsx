@@ -1,4 +1,4 @@
-import type { Breed } from '../../services/cat/cat.model.ts';
+import type { Breed } from '../../../services/cat/cat.model.ts';
 import { BreedCard } from '../BreedCard/BreedCard.tsx';
 import styles from './BreedList.module.css';
 

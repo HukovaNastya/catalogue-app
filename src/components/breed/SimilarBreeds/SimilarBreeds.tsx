@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import type { Breed } from '../../services/cat/cat.model.ts';
-import { useBreeds } from '../../hooks/useBreeds.ts';
-import { findSimilarBreeds } from '../../utils/similarBreeds.ts';
-import { Typography } from '../common/Typography/Typography.tsx';
+import type { Breed } from '../../../services/cat/cat.model.ts';
+import { useBreeds } from '../../../hooks/useBreeds.ts';
+import { findSimilarBreeds } from '../../../utils/similarBreeds.ts';
+import { Typography } from '../../common/Typography/Typography.tsx';
 import { SimilarBreedChip } from './SimilarBreedChip.tsx';
 import styles from './SimilarBreeds.module.css';
 
