@@ -59,9 +59,24 @@
   object-position: center 30%;
 }
 
+/* Fills the wrapper's 4/3 box so a photoless card is exactly as tall as its
+   neighbours — the grid never shifts. */
 .imagePlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   width: 100%;
   height: 100%;
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* The icon is sized in em, so this is what sets it. */
+.placeholderIcon {
+  font-size: 34px;
+  opacity: 0.55;
 }
 
 .origin {

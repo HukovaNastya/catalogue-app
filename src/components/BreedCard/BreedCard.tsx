@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { Breed } from '../../services/cat/cat.model.ts';
 import { FavouriteButton } from '../FavouriteButton/FavouriteButton.tsx';
 import { Typography } from '../common/Typography/Typography.tsx';
+import { CatIcon } from '../../assets/icons/CatIcon.tsx';
 import styles from './BreedCard.module.css';
 import {getImageUrl} from "../../utils/helper.ts";
 
@@ -11,23 +13,28 @@ interface BreedCardProps {
 
 export function BreedCard({ breed }: BreedCardProps) {
   const imageUrl = getImageUrl(breed);
+  // getImageUrl guesses a .jpg URL from reference_image_id, which 404s for
+  // some breeds — so a present URL is not a present photo.
+  const [failed, setFailed] = useState(false);
 
   return (
     <article className={styles.card}>
       <div className={styles.imageWrapper}>
-        {imageUrl ? (
+        {imageUrl && !failed ? (
           <img
             className={styles.image}
             src={imageUrl}
             alt={breed.name}
             loading="lazy"
+            onError={() => setFailed(true)}
           />
         ) : (
-          <div className={styles.imagePlaceholder} aria-hidden="true" />
+          <div className={styles.imagePlaceholder}>
+            <CatIcon className={styles.placeholderIcon} />
+            <span>No photo</span>
+          </div>
         )}
       </div>
-
-      {/* Sibling of the link, not a child of it — see .link::after below. */}
       <FavouriteButton
         className={styles.favourite}
         breedId={breed.id}

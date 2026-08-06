@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
-import { Link } from '@tanstack/react-router';
 import type { Breed } from '../../services/cat/cat.model.ts';
 import { useBreeds } from '../../hooks/useBreeds.ts';
-import { getImageUrl } from '../../utils/helper.ts';
 import { findSimilarBreeds } from '../../utils/similarBreeds.ts';
 import { Typography } from '../common/Typography/Typography.tsx';
+import { SimilarBreedChip } from './SimilarBreedChip.tsx';
 import styles from './SimilarBreeds.module.css';
 
 const SIMILAR_LIMIT = 3;
@@ -35,39 +34,11 @@ export function SimilarBreeds({ breed }: SimilarBreedsProps) {
       </div>
 
       <ul className={styles.list}>
-        {matches.map(({ breed: match, shared }) => {
-          const imageUrl = getImageUrl(match);
-
-          return (
-            <li key={match.id}>
-              <Link
-                className={styles.chip}
-                to="/breeds/$breedId"
-                params={{ breedId: match.id }}
-                // No `search` prop: retainSearchParams on the root route
-                // carries q and page over, so "Back to results" still lands on
-                // the page you came from after hopping between breeds.
-              >
-                {imageUrl ? (
-                  <img
-                    className={styles.thumb}
-                    src={imageUrl}
-                    alt=""
-                    loading="lazy"
-                  />
-                ) : (
-                  <span className={styles.thumb} aria-hidden="true" />
-                )}
-                <span className={styles.text}>
-                  <span className={styles.name}>{match.name}</span>
-                  <span className={styles.shared}>
-                    Also {shared.slice(0, 2).join(' · ').toLowerCase()}
-                  </span>
-                </span>
-              </Link>
-            </li>
-          );
-        })}
+        {matches.map(({ breed: match, shared }) => (
+          <li key={match.id}>
+            <SimilarBreedChip breed={match} shared={shared} />
+          </li>
+        ))}
       </ul>
     </section>
   );
