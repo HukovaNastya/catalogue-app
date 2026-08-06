@@ -41,7 +41,7 @@ export class BreedsListPage {
     // Scoped: the empty state renders its own "Clear search" button.
     this.clearSearchButton = searchForm.getByRole('button', { name: 'Clear search' })
     this.favouritesLink = page.getByRole('link', { name: /favourites/i })
-    this.brandLink = page.getByRole('link', { name: 'Breeds', exact: true })
+    this.brandLink = page.getByRole('link', { name: 'Catalogue', exact: true })
 
     this.kidsGroup = page.getByRole('group', { name: 'Good with kids' })
     this.groomingGroup = page.getByRole('group', { name: 'Grooming' })

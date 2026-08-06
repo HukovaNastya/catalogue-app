@@ -10,19 +10,30 @@
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.45em;
   font-family: var(--heading);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 500;
-  letter-spacing: -0.24px;
+  letter-spacing: -0.015em;
   color: var(--text-h);
   text-decoration: none;
 }
 
+/* 26px against the 19px wordmark, as in the mockup. */
 .brandMark {
   flex: none;
-  font-size: 32px;
-  color: var(--indigo);
+  font-size: 1.368em;
+  color: var(--brand);
+}
+
+/* Typography's `body` variant hard-codes 15px; the wordmark sets its own size. */
+.brand .brandWord,
+.brand .brandTint {
+  font-size: inherit;
+}
+
+.brandTint {
+  color: var(--brand);
 }
 
 .favourites {

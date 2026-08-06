@@ -14,7 +14,12 @@ export function Header() {
     <header className={styles.header}>
       <Link className={styles.brand} to="/breeds" search={{ q: '', page: 1 }}>
         <CatalogueIcon className={styles.brandMark} />
-        Catalogue
+        <Typography as="span" variant="body" className={styles.brandWord}>
+          <Typography as="span" variant="body" className={styles.brandTint}>
+            Cat
+          </Typography>
+          alogue
+        </Typography>
       </Link>
 
       <SearchInput value={q} onChange={setQuery} onClear={clearQuery} />
