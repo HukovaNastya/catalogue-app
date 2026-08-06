@@ -41,6 +41,21 @@
   white-space: nowrap;
 }
 
+/* Warm neutral rather than --brand-tint: a tinted pill here would read as
+   another filter chip, and this one is not removable. */
+.bar .clearFilters {
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--n-50);
+  font-size: 13px;
+  color: var(--brand);
+}
+
+.bar .clearFilters:hover {
+  background: var(--n-100);
+  color: var(--brand-hover);
+}
+
 .sort {
   display: inline-flex;
   align-items: center;

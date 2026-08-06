@@ -25,6 +25,7 @@ export class BreedsListPage {
 
   // Results
   readonly sortSelect: Locator
+  readonly clearFiltersButton: Locator
   readonly resultCount: Locator
   readonly cards: Locator
   readonly cardTitles: Locator
@@ -52,6 +53,9 @@ export class BreedsListPage {
     this.originSelect = page.getByRole('combobox', { name: 'Origin', exact: true })
 
     this.sortSelect = page.getByRole('combobox', { name: 'Sort', exact: true })
+    // "Clear all", not "Clear filters": the empty state renders a button by the
+    // latter name, and both are on screen when a filter combination hits zero.
+    this.clearFiltersButton = page.getByRole('button', { name: 'Clear all', exact: true })
     this.resultCount = page.getByText(/^\d+ of \d+ breeds$/)
     this.cards = page.getByRole('article')
     this.cardTitles = this.cards.getByRole('link')

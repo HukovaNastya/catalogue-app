@@ -7,9 +7,14 @@ import { BreedFilters } from '../../components/breed/BreedFilters/BreedFilters.t
 import { FilterChips } from '../../components/common/FilterChips/FilterChips.tsx'
 import { EmptyState } from '../../components/breed/EmptyState/EmptyState.tsx'
 import { Pagination } from '../../components/common/Pagination/Pagination.tsx'
+import { Button } from '../../components/common/Button/Button.tsx'
 import { Select } from '../../components/common/Select/Select.tsx'
 import { Typography } from '../../components/common/Typography/Typography.tsx'
-import { applyBreedFilters, SORT_OPTIONS } from '../../utils/filterBreeds.ts'
+import {
+  activeFilterKeys,
+  applyBreedFilters,
+  SORT_OPTIONS,
+} from '../../utils/filterBreeds.ts'
 import { clampPage, getTotalPages, paginate } from '../../utils/pagination.ts'
 import styles from './BreedsPage.module.css'
 
@@ -29,6 +34,8 @@ export function BreedsPage() {
     () => [...new Set((breeds ?? []).map((breed) => breed.origin))].sort(),
     [breeds],
   )
+
+  const hasActiveFilters = activeFilterKeys(filters).length > 0
 
   const totalCount = matches.length
   const currentPage = clampPage(page, getTotalPages(totalCount, PER_PAGE))
@@ -67,6 +74,16 @@ export function BreedsPage() {
               </Typography>
 
               <FilterChips filters={filters} onClear={clearFilter} />
+
+              {hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  className={styles.clearFilters}
+                  onClick={clearFilters}
+                >
+                  Clear all
+                </Button>
+              )}
 
               <label className={styles.sort}>
                 Sort

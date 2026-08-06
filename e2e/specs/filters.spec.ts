@@ -92,6 +92,40 @@ test.describe('filters', () => {
     await expect(list.resultCount).toHaveText(`5 of ${TOTAL_BREEDS} breeds`)
   })
 
+  test('clear all resets every filter but keeps the sort', async ({ page }) => {
+    const list = new BreedsListPage(page)
+    await list.goto('?kids=4&traits=rare&q=a&sort=name-desc&page=2')
+    await expect(list.clearFiltersButton).toBeVisible()
+
+    await list.clearFiltersButton.click()
+
+    await expect(list.resultCount).toHaveText(`${TOTAL_BREEDS} of ${TOTAL_BREEDS} breeds`)
+    await expect(page).not.toHaveURL(/kids=|traits=|q=|page=/)
+    // Sort is a view preference, not a filter, so it has to survive the clear.
+    await expect(page).toHaveURL(/sort=name-desc/)
+    await expect(list.sortSelect).toHaveValue('name-desc')
+    await expect(list.searchInput).toHaveValue('')
+    await expect(list.kidsOption('4+')).toHaveAttribute('aria-pressed', 'false')
+    await expect(list.traitOption('Rare')).not.toBeChecked()
+    await expect(list.clearFiltersButton).toBeHidden()
+  })
+
+  test('a search alone is enough to offer clear all', async ({ page }) => {
+    const list = new BreedsListPage(page)
+    await list.goto()
+    await expect(list.clearFiltersButton).toBeHidden()
+
+    await list.searchInput.fill('burm')
+
+    // No chip stands for `q`, but the button clears it, so it has to show.
+    await expect(list.clearFiltersButton).toBeVisible()
+
+    await list.clearFiltersButton.click()
+
+    await expect(list.searchInput).toHaveValue('')
+    await expect(list.resultCount).toHaveText(`${TOTAL_BREEDS} of ${TOTAL_BREEDS} breeds`)
+  })
+
   test('changing a filter drops you back to page 1', async ({ page }) => {
     const list = new BreedsListPage(page)
     await list.goto('?page=3')
