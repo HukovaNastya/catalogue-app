@@ -1,10 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
 import { BreedsListPage } from './BreedsListPage.ts'
 
-/**
- * /favourites. Reuses the list page's card, pagination and header locators —
- * it renders the same BreedList and Pagination components.
- */
 export class FavouritesPage extends BreedsListPage {
   readonly savedCount: Locator
   readonly clearAllButton: Locator

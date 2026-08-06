@@ -28,7 +28,6 @@ test.describe('routes', () => {
     const detail = new BreedDetailPage(page)
     await list.goto('?kids=4&page=2')
 
-    // Cyprus is the first card of page 2 once kids 4+ narrows the list to 19.
     await list.cardTitles.filter({ hasText: 'Cyprus' }).click()
     await expect(page).toHaveURL(/\/breeds\/cypr/)
 
@@ -49,7 +48,6 @@ test.describe('routes', () => {
     await expect(list.originSelect).toHaveValue('Greece')
     await expect(list.sortSelect).toHaveValue('name-desc')
 
-    // Aegean is the only rare, Greek, low-grooming, kid-friendly breed.
     await expect(list.visibleNames()).resolves.toEqual(['Aegean'])
   })
 
@@ -76,7 +74,6 @@ test.describe('routes', () => {
     const detail = new BreedDetailPage(page)
     await detail.goto('nope')
 
-    // React Query retries a failed fetch three times before giving up.
     await expect(page.getByText(/Could not load this breed/)).toBeVisible({ timeout: 20_000 })
     await expect(detail.backLink).toBeVisible()
   })

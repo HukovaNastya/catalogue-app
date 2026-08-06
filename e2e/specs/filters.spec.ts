@@ -2,7 +2,6 @@ import { expect, test } from '../fixtures/test.ts'
 import { BreedsListPage } from '../pages/BreedsListPage.ts'
 import { NAMES_ASC, TOTAL_BREEDS } from '../fixtures/breeds.ts'
 
-/** Commas survive as %2C in the address bar; assert against the readable form. */
 function search(url: string): string {
   return decodeURIComponent(new URL(url).search)
 }
@@ -20,7 +19,6 @@ test.describe('filters', () => {
     await expect(list.resultCount).toHaveText(`19 of ${TOTAL_BREEDS} breeds`)
     await expect(list.chipRemove('kids 4+')).toBeVisible()
 
-    // The active option is the only way back to "any" without touching a chip.
     await list.kidsOption('4+').click()
 
     await expect(page).not.toHaveURL(/kids=/)
@@ -39,7 +37,6 @@ test.describe('filters', () => {
 
     await list.groomingOption('High').check()
 
-    // Levels of one attribute, so the buckets add up rather than intersect.
     expect(search(page.url())).toContain('grooming=1,2,4,5')
     await expect(list.resultCount).toHaveText(`20 of ${TOTAL_BREEDS} breeds`)
   })
@@ -54,7 +51,7 @@ test.describe('filters', () => {
     await list.traitOption('Rare').check()
 
     expect(search(page.url())).toContain('traits=hypoallergenic,rare')
-    // No fixture breed is both, so the pair has to come back empty.
+
     await expect(list.resultCount).toHaveText(`0 of ${TOTAL_BREEDS} breeds`)
   })
 
@@ -101,7 +98,6 @@ test.describe('filters', () => {
 
     await expect(list.resultCount).toHaveText(`${TOTAL_BREEDS} of ${TOTAL_BREEDS} breeds`)
     await expect(page).not.toHaveURL(/kids=|traits=|q=|page=/)
-    // Sort is a view preference, not a filter, so it has to survive the clear.
     await expect(page).toHaveURL(/sort=name-desc/)
     await expect(list.sortSelect).toHaveValue('name-desc')
     await expect(list.searchInput).toHaveValue('')
@@ -117,7 +113,6 @@ test.describe('filters', () => {
 
     await list.searchInput.fill('burm')
 
-    // No chip stands for `q`, but the button clears it, so it has to show.
     await expect(list.clearFiltersButton).toBeVisible()
 
     await list.clearFiltersButton.click()
@@ -144,7 +139,6 @@ test.describe('filters', () => {
     await list.searchInput.fill('burm')
 
     await expect(page).toHaveURL(/q=burm/)
-    // Bombay is in on origin (Burma) alone.
     await expect(list.visibleNames()).resolves.toEqual([
       'Bombay',
       'Burmese',
@@ -161,7 +155,6 @@ test.describe('filters', () => {
     const list = new BreedsListPage(page)
     await list.goto('?kids=99&grooming=9,foo,2,2&traits=bogus&sort=weird')
 
-    // Only the one valid grooming level survives; everything else is dropped.
     await expect(list.resultCount).toHaveText(`10 of ${TOTAL_BREEDS} breeds`)
     await expect(list.kidsOption('5')).toHaveAttribute('aria-pressed', 'false')
     await expect(list.traitOption('Rare')).not.toBeChecked()

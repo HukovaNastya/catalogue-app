@@ -104,8 +104,6 @@ test.describe('favourites', () => {
     await list.goto()
     await list.favouriteToggle('Bengal').click()
 
-    // favourites.store.ts listens for the storage event, which only fires in
-    // the *other* tabs.
     await expect(favourites.savedCount).toHaveText('1 saved breed')
     await expect(favourites.visibleNames()).resolves.toEqual(['Bengal'])
   })

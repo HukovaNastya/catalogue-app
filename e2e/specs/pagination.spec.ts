@@ -3,7 +3,6 @@ import { BreedsListPage } from '../pages/BreedsListPage.ts'
 import { FavouritesPage } from '../pages/FavouritesPage.ts'
 import { NAMES_ASC, TWELVE_FAVOURITE_IDS } from '../fixtures/breeds.ts'
 
-// 25 breeds at 9 per page: 9 / 9 / 7.
 const LAST_PAGE = 3
 const LAST_PAGE_SIZE = 7
 
@@ -55,7 +54,6 @@ test.describe('pagination', () => {
     await expect(page).toHaveURL(/page=2/)
 
     await list.prevButton.click()
-    // page=1 is the default, so it is stripped back out of the URL.
     await expect(page).not.toHaveURL(/page=/)
   })
 

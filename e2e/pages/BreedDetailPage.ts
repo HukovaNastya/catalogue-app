@@ -1,6 +1,5 @@
 import type { Locator, Page } from '@playwright/test'
 
-/** A single breed's page: /breeds/$breedId. */
 export class BreedDetailPage {
   readonly page: Page
 
@@ -26,7 +25,6 @@ export class BreedDetailPage {
     await this.page.goto(`/breeds/${breedId}${search}`)
   }
 
-  /** The 1–5 bar for a label such as "Good with kids". */
   rating(label: string): Locator {
     return this.page
       .getByRole('term')

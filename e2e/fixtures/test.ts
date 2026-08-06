@@ -2,29 +2,17 @@ import { test as base, expect } from '@playwright/test'
 import type { BrowserContext, Page } from '@playwright/test'
 import { BREEDS, breedById, breedImages } from './breeds.ts'
 
-/** Same key as src/services/storage.ts — favourites are plain localStorage. */
 export const FAVOURITES_KEY = 'catalogue:favourites'
 
-// 1x1 transparent PNG. Every <img> in the app points at cdn2.thecatapi.com;
-// serving them locally keeps the run offline and off the CDN's rate limit.
 const PIXEL = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=',
   'base64',
 )
 
 interface CatalogueOptions {
-  /**
-   * Breed ids written to localStorage before the app boots. Order is the store's
-   * order: index 0 is the most recently saved, which is what /favourites lists
-   * first.
-   */
   favourites: string[]
 }
 
-/**
- * Routes are registered on the *context*, not the page, so a second tab opened
- * inside a test (the cross-tab favourites case) is mocked as well.
- */
 async function mockCatApi(context: BrowserContext) {
   await context.route(/api\.thecatapi\.com/, async (route) => {
     const url = new URL(route.request().url())
@@ -57,9 +45,6 @@ export const test = base.extend<CatalogueOptions>({
 
   context: async ({ context, favourites }, use) => {
     await mockCatApi(context)
-    // Runs before *every* navigation, so it seeds only when the key is absent.
-    // Overwriting unconditionally would undo anything a test saved as soon as
-    // it reloaded or moved to another page.
     await context.addInitScript(
       ([key, ids]) => {
         if (window.localStorage.getItem(key as string) === null) {
@@ -75,10 +60,6 @@ export const test = base.extend<CatalogueOptions>({
 
 export { expect }
 
-/**
- * Makes the breed list fail, for the error branch. Registered after the default
- * route, and Playwright runs the most recently added handler first.
- */
 export async function failBreedsRequest(page: Page) {
   await page.route(/api\.thecatapi\.com\/v1\/breeds$/, (route) =>
     route.fulfill({ status: 500, json: { message: 'BOOM' } }),

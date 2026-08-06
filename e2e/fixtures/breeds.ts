@@ -1,28 +1,9 @@
 import type { Breed, CatImage } from '../../src/services/cat/cat.model.ts'
 
-/**
- * A stand-in for TheCatAPI's breed list.
- *
- * Every number below is load-bearing: the app filters, sorts and paginates this
- * list client-side, so the fixture decides every count a test asserts. The
- * shape was chosen so the interesting cases are all reachable —
- *
- *  - 25 breeds -> exactly 3 pages at 9 per page (9 / 9 / 7)
- *  - kids >=3 / >=4 / >=5 -> 25 / 19 / 6
- *  - grooming Low [1,2] / Medium [3] / High [4,5] -> 17 / 5 / 3
- *  - hypoallergenic -> 5, rare -> 5, and *no breed is both* (empty combination)
- *  - no rare breed is kids 5 (two filters that each match, together match none)
- *  - Greece has exactly one breed, so an origin filter can be asserted by name
- *  - "Bengal" matches the search but is kids 4, so kids 5+ filters it back out
- *
- * Change a number here and the specs that depend on it are listed in
- * e2e/README.md.
- */
 interface BreedRow {
   id: string
   name: string
   origin: string
-  /** child_friendly */
   kids: number
   grooming: number
   hypoallergenic?: 1
@@ -57,7 +38,6 @@ const ROWS: BreedRow[] = [
   { id: 'sibe', name: 'Siberian', origin: 'Russia', kids: 5, grooming: 2, hypoallergenic: 1 },
 ]
 
-// Shared traits on purpose: SimilarBreeds only renders when breeds overlap.
 const TEMPERAMENTS = [
   'Active, Energetic, Intelligent, Gentle',
   'Affectionate, Intelligent, Loyal, Curious',
@@ -75,8 +55,6 @@ function toBreed(row: BreedRow, index: number): Breed {
     weight: { imperial: '7 - 10', metric: '3 - 5' },
     wikipedia_url: `https://en.wikipedia.org/wiki/${row.name.replace(/ /g, '_')}`,
     reference_image_id: `${row.id}-ref`,
-    // Ratings the filters do not read are fixed, so BreedPage assertions can
-    // name an exact value without pinning unrelated fixture data.
     affection_level: 5,
     child_friendly: row.kids,
     dog_friendly: 4,
@@ -96,7 +74,6 @@ export function breedById(id: string): Breed | undefined {
   return BREEDS.find((breed) => breed.id === id)
 }
 
-/** Names in the order the app shows them by default (A–Z). */
 export const NAMES_ASC = [...BREEDS]
   .map((breed) => breed.name)
   .sort((a, b) => a.localeCompare(b))
@@ -110,5 +87,4 @@ export function breedImages(breedId: string): CatImage[] {
   }))
 }
 
-/** Ids of the 12 breeds seeded in the favourites-pagination test (2 pages). */
 export const TWELVE_FAVOURITE_IDS = BREEDS.slice(0, 12).map((breed) => breed.id)
