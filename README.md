@@ -107,23 +107,19 @@ CSS modules sit alongside the component they style.
 
 ## Design tokens
 
-All colour and geometry lives in one block at the top of `src/index.css`, in three layers:
-
-- **Ramps** — `--brand-*` (slate indigo) and `--n-*` (warm neutrals, not pure grey).
-- **Roles** — `--page`, `--surface`, `--border`, `--border-hover`, `--text`, `--text-muted`,
-  `--text-subtle`, `--rating-filled`, `--rating-empty`, `--focus-ring`.
-- **Geometry** — `--radius-xs` through `--radius-lg`.
-
-Components read the **role** layer wherever a role exists; the ramp is used directly only for
-image wells and skeletons, which have none of their own. Reaching past a role into a raw hex is
-what would turn a future dark theme from a value swap into a refactor.
-
-Two rules the palette encodes:
-
-- `--brand` marks interaction or state — buttons, the current page, active controls. Ratings use
-  `--rating-filled` (a lighter indigo) so data never reads as something you can click. Keeping
-  them one hue apart leaves `--warning` free to mean an actual warning.
-- Cards sit on `--surface` against a `--page` background. That two-step separation is what makes
-  the grid read as cards without shadows.
+All colour and geometry lives in one block at the top of `src/index.css`, in three layers —
+ramps (`--brand-*`, `--n-*`), roles (`--page`, `--surface`, `--text-muted`, `--rating-filled`, …)
+and geometry (`--radius-*`). Components read the **role** layer.
 
 Light mode only, deliberately. A dark theme is a value swap in the role layer, not a refactor.
+The full grammar is in [`docs/conventions.md`](./docs/conventions.md).
+
+## Documentation
+
+| Document | Covers |
+|----------|--------|
+| [`docs/architecture.md`](./docs/architecture.md) | Data flow, routing, server state, URL-as-state, favourites |
+| [`docs/filtering.md`](./docs/filtering.md) | Predicates, grooming buckets, the self-explaining empty state, similar breeds |
+| [`docs/components.md`](./docs/components.md) | Props reference for every component |
+| [`docs/conventions.md`](./docs/conventions.md) | CSS modules, design tokens, accessibility, testing, adding a filter |
+| [`e2e/README.md`](./e2e/README.md) | The Playwright suite and its fixture contract |
