@@ -14,7 +14,9 @@ interface CatalogueOptions {
 }
 
 async function mockCatApi(context: BrowserContext) {
-  await context.route(/api\.thecatapi\.com/, async (route) => {
+  // The app talks to its own `/api` proxy, not the upstream host — under
+  // `vite preview` no proxy is running, so every one of these must be mocked.
+  await context.route(/\/api\//, async (route) => {
     const url = new URL(route.request().url())
     const { pathname } = url
 
@@ -61,7 +63,7 @@ export const test = base.extend<CatalogueOptions>({
 export { expect }
 
 export async function failBreedsRequest(page: Page) {
-  await page.route(/api\.thecatapi\.com\/v1\/breeds$/, (route) =>
+  await page.route(/\/api\/breeds$/, (route) =>
     route.fulfill({ status: 500, json: { message: 'BOOM' } }),
   )
 }

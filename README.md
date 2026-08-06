@@ -9,8 +9,12 @@ shared or bookmarked. Breeds can be saved to a favourites list held in `localSto
 
 | Environmental variable | Value                                                                                              |
 |------------------------|----------------------------------------------------------------------------------------------------|
-| VITE_API_URL           | https://api.thecatapi.com/v1                                                                        |
-| VITE_API_KEY           | TheCatAPI key — request a free one at [thecatapi.com](https://thecatapi.com/signup). Sent as the `x-api-key` header; omit it and the API answers with stricter rate limits. |
+| CAT_API_KEY            | TheCatAPI key — request a free one at [thecatapi.com](https://thecatapi.com/signup). Omit it and the API answers with stricter rate limits. |
+
+Note the name has **no `VITE_` prefix**, and that is the point: anything prefixed `VITE_` is
+inlined into the JavaScript bundle at build time and readable by anyone. The key is instead read
+server-side and attached to outgoing requests — by the Vite dev proxy locally, by
+`api/[...path].js` on Vercel. The browser only ever calls this app's own `/api` path.
 
 > `.env` is ignored by git — never commit your API key. Share new variables through this table instead.
 
