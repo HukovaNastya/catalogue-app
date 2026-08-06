@@ -29,6 +29,23 @@
   border-radius: 8px;
 }
 
+/* The same box as .image, for a photo that is missing or failed to load. */
+.imageFallback {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  background: var(--code-bg);
+}
+
+.imageSkeleton {
+  composes: imageFallback;
+}
+
+/* Scoped so it outranks PhotoFallback's own font-size whatever order the two
+   CSS modules land in. font-size is what sizes the icon. */
+.media .imageFallback {
+  font-size: 48px;
+}
+
 .thumbs {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -76,6 +93,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Scoped for the same reason as .media .imageFallback above. */
+.thumb .thumbFallback {
+  font-size: 20px;
 }
 
 .more {

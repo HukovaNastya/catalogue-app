@@ -65,12 +65,16 @@
 
 .thumbFallback {
   composes: thumb;
+}
+
+/* Scoped to `.chip` so it outranks PhotoFallback's own box rules whatever
+   order the two CSS modules land in — same reason as `.head .heading` above.
+   font-size is what sizes the icon. */
+.chip .thumbFallback {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 36px;
+  height: 36px;
   font-size: 20px;
-  color: var(--text);
-  opacity: 0.55;
 }
 
 .text {

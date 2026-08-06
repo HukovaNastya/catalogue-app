@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import type { SimilarBreed } from '../../utils/similarBreeds.ts';
 import { getImageUrl } from '../../utils/helper.ts';
-import { CatIcon } from '../../assets/icons/CatIcon.tsx';
+import { PhotoFallback } from '../common/PhotoFallback/PhotoFallback.tsx';
 import { Typography } from '../common/Typography/Typography.tsx';
 import styles from './SimilarBreeds.module.css';
 
@@ -27,9 +27,7 @@ export function SimilarBreedChip({ breed, shared }: SimilarBreedChipProps) {
           onError={() => setFailed(true)}
         />
       ) : (
-        <div className={styles.thumbFallback} aria-hidden="true">
-          <CatIcon />
-        </div>
+        <PhotoFallback className={styles.thumbFallback} />
       )}
       <div className={styles.text}>
         <Typography as="span" variant="body" tone="strong">

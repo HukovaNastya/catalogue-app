@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import type { Breed } from '../../services/cat/cat.model.ts';
 import { FavouriteButton } from '../FavouriteButton/FavouriteButton.tsx';
 import { Typography } from '../common/Typography/Typography.tsx';
-import { CatIcon } from '../../assets/icons/CatIcon.tsx';
+import { PhotoFallback } from '../common/PhotoFallback/PhotoFallback.tsx';
 import styles from './BreedCard.module.css';
 import {getImageUrl} from "../../utils/helper.ts";
 
@@ -29,12 +29,7 @@ export function BreedCard({ breed }: BreedCardProps) {
             onError={() => setFailed(true)}
           />
         ) : (
-          <div className={styles.imagePlaceholder}>
-            <CatIcon className={styles.placeholderIcon} />
-            <Typography as="span" variant="small">
-              No photo
-            </Typography>
-          </div>
+          <PhotoFallback label="No photo" />
         )}
       </div>
       <FavouriteButton
