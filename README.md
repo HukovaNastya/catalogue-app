@@ -1,5 +1,7 @@
 # Getting Started with Catalogue App
 
+**Live:** [catalogue-app-one.vercel.app](https://catalogue-app-one.vercel.app/breeds)
+
 A cat breed catalogue built with React 19, TypeScript and Vite. Breed data comes from
 [TheCatAPI](https://thecatapi.com/), is fetched with TanStack Query and browsed through a
 searchable, filterable, paginated grid. Every filter lives in the URL, so any view can be
@@ -123,8 +125,11 @@ CSS modules sit alongside the component they style.
 
 ## Deployment
 
+Deployed at **[catalogue-app-one.vercel.app](https://catalogue-app-one.vercel.app/breeds)**.
+
 Hosted on Vercel, which auto-detects Vite — build `npm run build`, output `dist`, install
-`npm install`. No overrides needed.
+`npm install`. No overrides needed. Pushing to `main` deploys to production; any other branch
+gets its own preview URL.
 
 **Set `CAT_API_KEY`** in Project Settings → Environment Variables, ticked for Production, Preview
 and Development. Two things bite here:
