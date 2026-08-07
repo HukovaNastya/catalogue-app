@@ -1,6 +1,11 @@
- import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, getRouteApi } from '@tanstack/react-router'
 import { useBreed } from '../../hooks/useBreed.ts'
-import { getImageUrl } from '../../utils/helper.ts'
+import { useBreedImages } from '../../hooks/useBreedImages.ts'
+import { FavouriteButton } from '../../components/common/FavouriteButton/FavouriteButton.tsx'
+import { BreedGallery } from '../../components/breed/BreedGallery/BreedGallery.tsx'
+import { SimilarBreeds } from '../../components/breed/SimilarBreeds/SimilarBreeds.tsx'
+import { Typography } from '../../components/common/Typography/Typography.tsx'
+import { galleryImages, parseTemperament } from '../../utils/helper.ts'
 import styles from './BreedPage.module.css'
 
 const RATING_LABELS: Record<string, string> = {
@@ -12,14 +17,15 @@ const RATING_LABELS: Record<string, string> = {
   vocalisation: 'Vocalisation',
 }
 
-export function BreedPage() {
-  const { breedId = '' } = useParams()
-  const location = useLocation()
-  const { data: breed, isLoading, isError, error } = useBreed(breedId)
+const route = getRouteApi('/breeds/$breedId')
 
-  const backSearch = (location.state as { from?: string } | null)?.from ?? ''
+export function BreedPage() {
+  const { breedId } = route.useParams()
+  const { data: breed, isLoading, isError, error } = useBreed(breedId)
+  const { data: images, isLoading: imagesLoading } = useBreedImages(breedId)
+
   const backLink = (
-    <Link className={styles.back} to={`/breeds${backSearch}`}>
+    <Link className={styles.back} to="/breeds" search={(prev) => prev}>
       ← Back to results
     </Link>
   )
@@ -42,19 +48,30 @@ export function BreedPage() {
     )
   }
 
-  const imageUrl = getImageUrl(breed)
-  const temperament = breed.temperament ? breed.temperament.split(', ') : []
+  const photos = galleryImages(breed, images ?? [])
+  const temperament = parseTemperament(breed)
 
   return (
     <article className={styles.page}>
       {backLink}
 
       <header className={styles.header}>
-        {imageUrl && (
-          <img className={styles.image} src={imageUrl} alt={breed.name} />
-        )}
+        <BreedGallery
+          key={breed.id}
+          images={photos}
+          breedName={breed.name}
+          isLoading={imagesLoading}
+        />
+
         <div className={styles.summary}>
-          <h1 className={styles.name}>{breed.name}</h1>
+          <div className={styles.titleRow}>
+            <Typography variant="title">{breed.name}</Typography>
+            <FavouriteButton
+              breedId={breed.id}
+              breedName={breed.name}
+              withLabel
+            />
+          </div>
           <p className={styles.meta}>
             {breed.origin} · {breed.life_span} years · {breed.weight.metric} kg
           </p>
@@ -84,7 +101,7 @@ export function BreedPage() {
       </header>
 
       <section className={styles.ratings}>
-        <h2>Living with a {breed.name}</h2>
+        <Typography variant="section">Living with a {breed.name}</Typography>
         <dl className={styles.ratingList}>
           {Object.entries(RATING_LABELS).map(([key, label]) => {
             const value = breed[key as keyof typeof breed] as number
@@ -112,6 +129,8 @@ export function BreedPage() {
           Rated 1–5 by The Cat API · higher is more
         </p>
       </section>
+
+      <SimilarBreeds breed={breed} />
     </article>
   )
 }

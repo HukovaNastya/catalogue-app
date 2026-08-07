@@ -1,0 +1,39 @@
+.media {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 320px;
+  max-width: 100%;
+}
+
+.imageButton {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  background: var(--n-100);
+  cursor: zoom-in;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 8px;
+}
+
+.imageFallback {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  background: var(--n-100);
+}
+
+.imageSkeleton {
+  composes: imageFallback;
+}
+
+.media .imageFallback {
+  font-size: 48px;
+}
+

@@ -1,0 +1,30 @@
+:where(.input) {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+}
+
+:where(.field) {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+:where(.bare) {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+:where(.input)::-webkit-search-cancel-button,
+:where(.input)::-webkit-search-decoration,
+:where(.input)::-webkit-search-results-button,
+:where(.input)::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}

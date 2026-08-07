@@ -1,60 +1,46 @@
 import { useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useMatchRoute, useNavigate, useSearch } from '@tanstack/react-router';
 
-/**
- * Owns every URL param the breed list reads. Keeping `q` and `page` in one
- * place is what guarantees a new query resets pagination — filtering down to
- * 3 results while sitting on page 4 would otherwise render an empty grid.
- */
 export function useBreedsParams() {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const q = searchParams.get('q') ?? '';
-  const rawPage = Number(searchParams.get('page'));
-  const page =
-    Number.isFinite(rawPage) && rawPage >= 1 ? Math.trunc(rawPage) : 1;
+  const { q, page } = useSearch({ from: '__root__' });
+  const navigate = useNavigate();
+  const matchRoute = useMatchRoute();
+  const onBreedDetail = Boolean(matchRoute({ to: '/breeds/$breedId' }));
 
   const setQuery = useCallback(
     (next: string) => {
-      setSearchParams(
-        (prev) => {
-          const params = new URLSearchParams(prev);
-          const trimmed = next.trim();
-
-          if (trimmed) {
-            params.set('q', trimmed);
-          } else {
-            params.delete('q');
-          }
-          params.delete('page');
-
-          return params;
-        },
-        { replace: true },
-      );
+      navigate({
+        to: '/breeds',
+        search: { q: next.trim(), page: 1 },
+        replace: true,
+      });
     },
-    [setSearchParams],
+    [navigate],
   );
+
+  const clearQuery = useCallback(() => {
+    if (onBreedDetail) {
+      navigate({
+        to: '.',
+        search: (prev) => ({ ...prev, q: '', page: 1 }),
+        replace: true,
+      });
+      return;
+    }
+
+    setQuery('');
+  }, [navigate, onBreedDetail, setQuery]);
 
   const setPage = useCallback(
     (next: number) => {
-      setSearchParams(
-        (prev) => {
-          const params = new URLSearchParams(prev);
-
-          if (next <= 1) {
-            params.delete('page');
-          } else {
-            params.set('page', String(next));
-          }
-
-          return params;
-        },
-        { replace: true },
-      );
+      navigate({
+        to: '.',
+        search: (prev) => ({ ...prev, page: next }),
+        replace: true,
+      });
     },
-    [setSearchParams],
+    [navigate],
   );
 
-  return { q, page, setQuery, setPage };
+  return { q, page, setQuery, clearQuery, setPage };
 }

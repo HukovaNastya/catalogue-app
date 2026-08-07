@@ -1,0 +1,61 @@
+import { useState } from 'react';
+import { Link } from '@tanstack/react-router';
+import type { Breed } from '../../../services/cat/cat.model.ts';
+import { FavouriteButton } from '../../common/FavouriteButton/FavouriteButton.tsx';
+import { Typography } from '../../common/Typography/Typography.tsx';
+import { PhotoFallback } from '../../common/PhotoFallback/PhotoFallback.tsx';
+import styles from './BreedCard.module.css';
+import {getImageUrl} from "../../../utils/helper.ts";
+
+interface BreedCardProps {
+  breed: Breed;
+}
+
+export function BreedCard({ breed }: BreedCardProps) {
+  const imageUrl = getImageUrl(breed);
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <article className={styles.card}>
+      <div className={styles.imageWrapper}>
+        {imageUrl && !failed ? (
+          <img
+            className={styles.image}
+            src={imageUrl}
+            alt={breed.name}
+            loading="lazy"
+            onError={() => setFailed(true)}
+          />
+        ) : (
+          <PhotoFallback label="No photo" />
+        )}
+      </div>
+      <FavouriteButton
+        className={styles.favourite}
+        breedId={breed.id}
+        breedName={breed.name}
+      />
+
+      <div>
+        <Typography variant="cardTitle">
+          <Link
+            className={styles.link}
+            to="/breeds/$breedId"
+            params={{ breedId: breed.id }}
+          >
+            {breed.name}
+          </Link>
+        </Typography>
+        <p className={styles.origin}>{breed.origin}</p>
+      </div>
+      <div className={styles.ratings}>
+        <Typography as="span" variant="small" tone="muted" className={styles.rating}>
+          kids {breed.child_friendly}
+        </Typography>
+        <Typography as="span" variant="small" tone="muted" className={styles.rating}>
+          energy {breed.energy_level}
+        </Typography>
+      </div>
+    </article>
+  );
+}
