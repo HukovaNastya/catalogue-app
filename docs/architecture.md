@@ -47,7 +47,8 @@ flowchart TD
   RS --> UBF["useBreedFilters<br/>parses to BreedFilters"]
   RS --> UBP["useBreedsParams<br/>owns q + page"]
 
-  API["TheCatAPI /breeds"] --> SVC["cat.service.ts<br/>fetch"]
+  API["TheCatAPI /v1"] --> PX["/api proxy<br/>attaches the key server-side"]
+  PX --> SVC["cat.service.ts<br/>fetch('/api/…')"]
   SVC --> Q["cat.queries.ts<br/>queryOptions, staleTime 5 min"]
   Q --> UB["useBreeds()"]
 
@@ -89,6 +90,37 @@ Three details worth knowing:
   warm cache.
 - **The search schema lives on the root route**, so every route shares one `AppSearch` shape.
   That is what lets a filtered link survive a trip to a detail page and back.
+
+## The API proxy
+
+`cat.service.ts` never talks to TheCatAPI. `API_BASE_URL` is the literal string `/api`, and no
+request carries a key — the client calls its own origin and something server-side forwards it.
+
+That is not a style choice. Vite inlines every `import.meta.env.VITE_*` reference into the
+bundle at build time, so a key read from client code is a key published to every visitor. The
+only way to keep it secret is for client code never to see it. Nothing under `src/` reads an
+environment variable at all.
+
+The forwarding half exists twice, once per environment, and neither implementation ever runs
+where the other does:
+
+| Environment | Serves `/api/*` | Reads the key from |
+|---|---|---|
+| `npm run dev` | `server.proxy` in `vite.config.ts` | `.env`, via `loadEnv(mode, cwd, '')` |
+| Vercel | `api/proxy.js`, routed by `vercel.json` | `process.env.CAT_API_KEY` |
+| `npm run preview` | nothing — `/api` 404s | — |
+| `npm run test:e2e` | Playwright route mocks | — |
+
+`loadEnv`'s third argument is an empty string, which drops Vite's default `VITE_` prefix filter.
+That is the only reason a variable named `CAT_API_KEY` is visible to the config at all — and
+because the config runs in Node rather than the browser, reading it there leaks nothing.
+
+Two consequences worth remembering:
+
+- **They must be kept in step by hand.** Change how one rewrites a path and the other needs the
+  same change; nothing catches the drift.
+- **`preview` is not a smoke test.** It serves the built assets with no proxy, so the app renders
+  its error state. `vercel dev` runs the build *and* the function.
 
 ## Server state
 

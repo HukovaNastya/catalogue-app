@@ -14,7 +14,8 @@ shared or bookmarked. Breeds can be saved to a favourites list held in `localSto
 Note the name has **no `VITE_` prefix**, and that is the point: anything prefixed `VITE_` is
 inlined into the JavaScript bundle at build time and readable by anyone. The key is instead read
 server-side and attached to outgoing requests — by the Vite dev proxy locally, by
-`api/[...path].js` on Vercel. The browser only ever calls this app's own `/api` path.
+`api/proxy.js` on Vercel. The browser only ever calls this app's own `/api` path, and nothing
+under `src/` reads an environment variable at all.
 
 > `.env` is ignored by git — never commit your API key. Share new variables through this table instead.
 
@@ -32,7 +33,11 @@ The page will reload when you make changes.
 
 ### `npm run build` - type-checks the project (`tsc -b`) and builds it for production into the `dist` folder.
 
-### `npm run preview` - serves the production build locally so it can be checked before deploy.
+### `npm run preview` - serves the production build locally.
+
+Checks the built assets, **not** the running app: only the dev server proxies `/api`, so breed
+requests 404 here and the app renders its error state. To exercise the real thing locally, run
+`vercel dev`, which serves the build *and* `api/proxy.js`.
 
 ### `npm run lint` - runs ESLint across the project.
 
@@ -73,6 +78,11 @@ to "no filter" instead of an error page.
 ## Project structure
 
 ```
+api/
+└── proxy.js        Serverless function: forwards /api/* upstream with the key attached
+vercel.json         Rewrites — /api/* to the proxy, everything else to index.html
+vite.config.ts      Build config, plus the dev-server stand-in for api/proxy.js
+
 src/
 ├── assets/icons/   Inline SVG components (CatalogueIcon, SearchIcon, CloseIcon)
 ├── components/
@@ -108,6 +118,46 @@ CSS modules sit alongside the component they style.
 - **Favourites** live in `localStorage` under `catalogue:favourites`, newest first. They are not
   in the URL — they belong to the browser, not the view.
 - **Caching** is handled by TanStack Query; breeds are fetched once and reused across pages.
+- **The API key never reaches the browser.** The client only ever calls `/api` on its own origin;
+  a server-side proxy attaches the key. See below.
+
+## Deployment
+
+Hosted on Vercel, which auto-detects Vite — build `npm run build`, output `dist`, install
+`npm install`. No overrides needed.
+
+**Set `CAT_API_KEY`** in Project Settings → Environment Variables, ticked for Production, Preview
+and Development. Two things bite here:
+
+- Adding a variable does **not** apply it to deployments that already exist. Redeploy afterwards.
+- A missing key fails *quietly*. `/breeds` is served anonymously, so the grid still loads while
+  detail lookups fail — it looks like a routing bug, not a credentials one.
+
+`vercel.json` carries two rewrites, and the order matters:
+
+```json
+{ "source": "/api/(.*)",       "destination": "/api/proxy?path=$1" }
+{ "source": "/((?!api/).*)",   "destination": "/index.html" }
+```
+
+The first hands every API call to the proxy, passing the upstream path as a query parameter
+rather than relying on a `[...catch-all]` filename. The second is the SPA fallback: without it
+a hard refresh on `/breeds/abys` returns 404, because that path only exists inside the bundle.
+Its negative lookahead is what stops the fallback swallowing `/api` and answering fetches with
+HTML.
+
+### The proxy exists twice
+
+One contract, two implementations, and neither runs in the other's environment:
+
+| Environment | Serves `/api/*` | Reads the key from |
+|---|---|---|
+| `npm run dev` | Vite's `server.proxy` (`vite.config.ts`) | `.env` via `loadEnv` |
+| Vercel | `api/proxy.js` | `process.env` |
+| `npm run preview` | nothing — `/api` 404s | — |
+| `npm run test:e2e` | Playwright route mocks | — |
+
+Change how one forwards a request and the other needs the same change.
 
 ## Design tokens
 
